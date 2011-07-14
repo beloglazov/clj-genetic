@@ -1,7 +1,9 @@
 (ns clj-genetic.core
   (:use clj-genetic.util))
 
-(defn evaluate [fitness chromosomes]
+(defn evaluate
+  "Evaluates the fitness function for each chromosome"
+  [fitness chromosomes]
   {:pre [(c (fn? fitness))
          (c (coll? chromosomes))]
    :post [(c (map? %))]}
@@ -18,7 +20,7 @@
   (loop [step 0
          population initial-population]
     (let [results (evaluate population)
-          selected-chromosomes (selection population)] 
+          selected-chromosomes (selection results)] 
       (if (terminate? results step)
         {:results results
          :step step}
