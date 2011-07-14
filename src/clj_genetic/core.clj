@@ -1,6 +1,13 @@
 (ns clj-genetic.core
   (:use clj-genetic.util))
 
+(defn evaluate [fitness chromosomes]
+  {:pre [(c (fn? fitness))
+         (c (coll? chromosomes))]
+   :post [(c (map? %))]}
+  (apply hash-map
+    (interleave chromosomes (map fitness chromosomes))))
+
 (defn run [evaluate selection recombine terminate? initial-population]
   {:pre [(c (fn? evaluate))
          (c (fn? selection))

@@ -3,7 +3,7 @@
         clj-genetic.util
         midje.sweet))
 
-(unfinished evaluate selection recombine terminate?)
+(unfinished selection recombine terminate? fitness)
 
 (def population [1 2 3])
 
@@ -23,3 +23,9 @@
     (recombine anything) => anything
     (terminate? (evaluate anything) 0) => false
     (terminate? (evaluate anything) 1) => true))
+
+(fact
+  (evaluate fitness [.a. .b. .c.]) => (just {.a. number?
+                                             .b. number?
+                                             .c. number?})
+  (provided (fitness anything) => 1))
