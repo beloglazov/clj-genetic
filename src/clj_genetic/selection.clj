@@ -2,7 +2,8 @@
   (:use clj-genetic.util))
 
 (defn tournament-select
-  "1. Any feasible solution is preferred to any infeasible solution.
+  "Tournament selection with replacement:
+   1. Any feasible solution is preferred to any infeasible solution.
    2. Among two feasible solutions, the one having better objective function value is preferred.
    3. Among two infeasible solutions, the one having smaller constraint violation is preferred."
   [[% a-meta :as a] [% b-meta :as b]]
