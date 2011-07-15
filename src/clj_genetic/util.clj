@@ -144,3 +144,7 @@
   "Same as (not (contains-val? coll needle))."
   [coll needle]
   (not (contains-val? coll needle)))
+
+(defn contains-keys? [coll & ks]
+  "Check if the coll contains all the listed keys"
+  (every? (partial contains? coll) ks))
