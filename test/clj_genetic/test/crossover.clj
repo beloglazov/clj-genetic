@@ -47,3 +47,14 @@
     (simulated-binary-with-limits-cross 
       anything anything anything anything) => [1 2]))
 
+(fact
+  (simulated-binary chromosome1 chromosome2)
+  => [chromosome1 chromosome2]
+  (provided (rand) => 1)
+  (simulated-binary chromosome1 chromosome2)
+  => [[1 1 1] [2 2 2]]
+  (provided 
+    (rand) => 0
+    (simulated-binary-cross 
+      anything anything anything) => [1 2]))
+

@@ -65,7 +65,7 @@
     {:pre [(c (coll? chromosome1))
            (c (coll? chromosome2))]
      :post [(c (coll? %))]}
-    (simulated-binary-with-limits chromosome1 chromosome2 0.5 1))
+    (simulated-binary chromosome1 chromosome2 0.5 1))
   
   ([chromosome1 chromosome2 p nu]
     {:pre [(c (coll? chromosome1))
