@@ -23,16 +23,23 @@
       [y1 y2]
       [y2 y1])))
 
-(defn simulated-binary
+(defn simulated-binary-with-limits
   
   ([chromosome1 chromosome2 limits]
     {:pre [(c (coll? chromosome1))
            (c (coll? chromosome2))
            (c (coll? limits))]
      :post [(c (coll? %))]}
-    (let [p 0.5 ; probability of selecting a gene for crossover
-          nu 1
-          new-genes (map (fn [gene1 gene2 gene-limits]
+    (simulated-binary-with-limits chromosome1 chromosome2 limits 0.5 1))
+  
+  ([chromosome1 chromosome2 limits p nu]
+    {:pre [(c (coll? chromosome1))
+           (c (coll? chromosome2))
+           (c (coll? limits))
+           (not-negnum? p)
+           (not-negnum? nu)]
+     :post [(c (coll? %))]}
+    (let [new-genes (map (fn [gene1 gene2 gene-limits]
                            (if (< (rand) p)
                              (simulated-binary-cross gene1 gene2 gene-limits)
                              [gene1 gene2]))

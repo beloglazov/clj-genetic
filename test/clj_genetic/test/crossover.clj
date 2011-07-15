@@ -22,21 +22,17 @@
   beta = (1/(2-a*u)^(1/(nu+1))) = (1/(2-1.555555556*0.8)^(1/(1+1))) = 1.150447484
   y1 = 0.5*(x1+x2-beta*(x2-x1)) = 0.5*(1+5-1.150447484*(5-1)) = 0.699105032
   y2 = 0.5*(x1+x2+beta*(x2-x1)) = 0.5*(1+5+1.150447484*(5-1)) = 5.300894968"
-  (simulated-binary-cross 1 5 {:min 0 :max 30} nu) => (just
-                                                        (roughly 1.6337)
-                                                        (roughly 4.3662))
+  (simulated-binary-cross 1 5 {:min 0 :max 30} nu) 
+  => (just (roughly 1.6337) (roughly 4.3662))
   (provided (rand) => 0.3)
-  (simulated-binary-cross 1 5 {:min 0 :max 30} nu) => (just
-                                                        (roughly 0.6991)
-                                                        (roughly 5.3008))
+  (simulated-binary-cross 1 5 {:min 0 :max 30} nu) 
+  => (just (roughly 0.6991) (roughly 5.3008))
   (provided (rand) => 0.8)
-  (simulated-binary-cross 5 1 {:min 0 :max 30} nu) => (just                                                        
-                                                        (roughly 4.3662)
-                                                        (roughly 1.6337))
+  (simulated-binary-cross 5 1 {:min 0 :max 30} nu) 
+  => (just (roughly 4.3662) (roughly 1.6337))
   (provided (rand) => 0.3)
-  (simulated-binary-cross 5 1 {:min 0 :max 30} nu) => (just
-                                                        (roughly 5.3008)
-                                                        (roughly 0.6991))
+  (simulated-binary-cross 5 1 {:min 0 :max 30} nu) 
+  => (just (roughly 5.3008) (roughly 0.6991))
   (provided (rand) => 0.8))
 
 

@@ -28,9 +28,9 @@
   (provided (rand) => 1.0))
 
 (fact
-  (parameter-based genes limits t t-max nu) => genes
+  (parameter-based-with-limits genes limits t t-max nu) => genes
   (provided (parameter-based-mutate? n t t-max) => false)
-  (parameter-based genes limits t t-max nu) => (just 5 5 5)
+  (parameter-based-with-limits genes limits t t-max nu) => (just 5 5 5)
   (provided (parameter-based-mutate? n t t-max) => true
             (parameter-based-mutate anything
                                     anything

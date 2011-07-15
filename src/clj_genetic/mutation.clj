@@ -42,6 +42,13 @@
 
 (defn parameter-based 
   
+  ([genes t t-max]
+    {:pre [(c (coll? genes))
+           (c (not-negnum? t))
+           (c (not-negnum? t-max))]
+     :post [(c (coll? %))]}
+    (parameter-based genes t t-max 100))
+  
   ([genes t t-max nu]
     {:pre [(c (coll? genes))
            (c (not-negnum? t))
@@ -53,7 +60,17 @@
              (if (parameter-based-mutate? n t t-max)
                (parameter-based-mutate gene t nu)
                gene))
-           genes)))
+           genes))))
+
+(defn parameter-based-with-limits
+    
+  ([genes limits t t-max]
+    {:pre [(c (coll? genes))
+           (c (coll? limits))
+           (c (not-negnum? t))
+           (c (not-negnum? t-max))]
+     :post [(c (coll? %))]}
+    (parameter-based-with-limits genes limits t t-max 100))
   
   ([genes limits t t-max nu]
     {:pre [(c (coll? genes))
@@ -68,20 +85,3 @@
                (parameter-based-mutate gene gene-limits t nu)
                gene))
            genes limits))))
-
-(defn parameter-based-default
-  
-  ([genes t t-max]
-    {:pre [(c (coll? genes))
-           (c (not-negnum? t))
-           (c (not-negnum? t-max))]
-     :post [(c (coll? %))]}
-    (parameter-based genes t t-max 100))
-  
-  ([genes limits t t-max]
-    {:pre [(c (coll? genes))
-           (c (coll? limits))
-           (c (not-negnum? t))
-           (c (not-negnum? t-max))]
-     :post [(c (coll? %))]}
-    (parameter-based genes limits t t-max 100)))
