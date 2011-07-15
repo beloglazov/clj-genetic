@@ -10,13 +10,14 @@
   (let [p ($= 1 / n + t / t-max * (1 - 1 / n))]
     (< (rand) p)))
 
-(defn parameter-based-mutate [gene limits t nu]
+(defn parameter-based-mutate [gene limits t nu-base]
   {:pre [(c (number? gene))
          (c (contains-keys? limits :min :max))
-         (c (not-negnum? nu))
+         (c (not-negnum? nu-base))
          (c (not-negnum? t))]
    :post [(c (number? %))]}
-  (let [u (rand)
+  (let [nu (+ nu-base t)
+        u (rand)
         delta-max (- (:max limits) (:min limits))
         d (/ (min (- gene (:min limits)) (- (:max limits) gene)) delta-max)
         delta (if (<= u 0.5)
