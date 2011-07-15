@@ -47,6 +47,28 @@
     (simulated-binary-with-limits-cross 
       anything anything anything anything) => [1 2]))
 
+(fact 
+  "Simulated binary crossover with parameter limits
+  beta = (2*u)^(1/(nu+1)) = (2*0.3)^(1/(1+1)) = 0.774596669
+  y1 = 0.5*(x1+x2-beta*|x2-x1|) = 0.5*(1+5-0.774596669*(5-1)) = 1.450806662
+  y2 = 0.5*(x1+x2+beta*|x2-x1|) = 0.5*(1+5+0.774596669*(5-1)) = 4.549193338
+
+  beta = (1/(2*(1-u))^(1/(nu+1))) = (1/(2*(1-0.8))^(1/(1+1))) = 1.58113883
+  y1 = 0.5*(x1+x2-beta*|x2-x1|) = 0.5*(1+5-1.58113883*(5-1)) = −0.16227766
+  y2 = 0.5*(x1+x2+beta*|x2-x1|) = 0.5*(1+5+1.58113883*(5-1)) = 6.16227766"
+  (simulated-binary-cross 1 5 nu) => (just (roughly 1.4508) 
+                                           (roughly 4.5491))
+  (provided (rand) => 0.3) 
+  (simulated-binary-cross 1 5 nu) => (just (roughly -0.1622) 
+                                           (roughly 6.1622))
+  (provided (rand) => 0.8)
+  (simulated-binary-cross 5 1 nu) => (just (roughly 4.5491) 
+                                           (roughly 1.4508))
+  (provided (rand) => 0.3)
+  (simulated-binary-cross 5 1 nu) => (just (roughly 6.1622) 
+                                           (roughly -0.1622))
+  (provided (rand) => 0.8))
+
 (fact
   (simulated-binary chromosome1 chromosome2)
   => [chromosome1 chromosome2]
