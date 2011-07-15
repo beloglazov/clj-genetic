@@ -1,12 +1,13 @@
 (ns clj-genetic.mutation
-  (:use clj-genetic.util))
+  (:use clj-genetic.util
+        incanter.core))
 
 (defn parameter-based-mutate? [n t t-max]
   {:pre [(c (posnum? n))
          (c (not-negnum? t))
          (c (not-negnum? t-max))]
    :post [(c (boolean? %))]}
-  (let [p (+ (/ 1 n) (* (/ t t-max) (- 1 (/ 1 n))))]
+  (let [p ($= 1 / n + t / t-max * (1 - 1 / n))]
     (< (rand) p)))
 
 (defn parameter-based-mutate [gene limits t nu]
@@ -15,7 +16,13 @@
          (c (not-negnum? nu))
          (c (not-negnum? t))]
    :post [(c (number? %))]}
-  ())
+  (let [u (rand)
+        delta-max (- (:max limits) (:min limits))
+        d (/ (min (- gene (:min limits)) (- (:max limits) gene)) delta-max)
+        delta (if (<= u 0.5)
+                ($= (2 * u + (1 - 2 * u) * (1 - d) ^ (nu + 1)) ^ (1 / (nu + 1)) - 1)
+                ($= 1 - (2 * (1 - u) + 2 * (u - 0.5) * (1 - d) ^ (nu + 1)) ^ (1 / (nu + 1))))]
+   (+ gene (* delta delta-max))))
 
 (defn parameter-based [genes limits t t-max]
   {:pre [(c (coll? genes))

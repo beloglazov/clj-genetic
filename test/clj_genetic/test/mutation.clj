@@ -10,9 +10,10 @@
 (def t 5)
 (def t-max 500)
 (def n 3)
+(def nu 100)
 
 (fact 
-  "1÷3+(5÷500)(1 − 1÷3) = 0.34"
+  "1/3+(5/500)(1 − 1/3) = 0.34"
   (parameter-based-mutate? n t t-max) => true
   (provided (rand) => 0.0)
   (parameter-based-mutate? n t t-max) => true
@@ -35,3 +36,6 @@
                                     anything
                                     t
                                     anything) => 5))
+
+(fact
+  )
