@@ -38,7 +38,7 @@
                                     nu) => 5))
 
 (fact
-  "Parameter-based mutation
+  "Parameter-based mutation with parameter limits
    d = min(x - 0, 30 - x) / (30 - 0) = 1/30
    d-max = 30 - 0 = 30
    delta = (2*u + (1-2*u)*(1-d)^(nu+t+1))^(1/(nu+t+1))-1 =
@@ -52,6 +52,21 @@
   (parameter-based-mutate 1 {:min 0 :max 30} t nu) => (roughly 0.8608)
   (provided (rand) => 0.3)
   (parameter-based-mutate 1 {:min 0 :max 30} t nu) => (roughly 1.2468)
+  (provided (rand) => 0.8))
+
+(fact
+  "Parameter-based mutation without parameter limits
+   d-max = 1 * 100 = 100
+   delta = (2*u)^(1/(nu+t+1))-1 = (2*0.3)^(1/(100+5+1))-1 = 
+   = −0.004807516
+   y = x + delta * d-max = 1−0.004807516*100 = 0.5192484
+   delta = 1-(2*(1-u))^(1/(nu+t+1)) = 1-(2*(1-0.8))^(1/(100+5+1)) = 
+   = 1-(2*(1-0.8)+2*(0.8-0.5)*(1-1/30)^(100+5+1))^(1/(100+5+1)) =  
+   = 0.008606998
+   y = x + delta * d-max = 1+0.008606998*100 = 1.8606998"  
+  (parameter-based-mutate 1 t nu) => (roughly 0.5192)
+  (provided (rand) => 0.3)
+  (parameter-based-mutate 1 t nu) => (roughly 1.8606)
   (provided (rand) => 0.8))
 
 
