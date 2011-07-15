@@ -20,8 +20,8 @@
         delta-max (- (:max limits) (:min limits))
         d (/ (min (- gene (:min limits)) (- (:max limits) gene)) delta-max)
         delta (if (<= u 0.5)
-                ($= (2 * u + (1 - 2 * u) * (1 - d) ^ (nu + 1)) ^ (1 / (nu + 1)) - 1)
-                ($= 1 - (2 * (1 - u) + 2 * (u - 0.5) * (1 - d) ^ (nu + 1)) ^ (1 / (nu + 1))))]
+                ($= (2 * u + (1 - 2 * u) * (1 - d) ** (nu + 1)) ** (1 / (nu + 1)) - 1)
+                ($= 1 - (2 * (1 - u) + 2 * (u - 0.5) * (1 - d) ** (nu + 1)) ** (1 / (nu + 1))))]
    (+ gene (* delta delta-max))))
 
 (defn parameter-based [genes limits t t-max]
