@@ -24,17 +24,25 @@
                 ($= 1 - (2 * (1 - u) + 2 * (u - 0.5) * (1 - d) ** (nu + 1)) ** (1 / (nu + 1))))]
    (+ gene (* delta delta-max))))
 
-(defn parameter-based [genes limits t t-max]
+(defn parameter-based [genes limits t t-max nu]
   {:pre [(c (coll? genes))
          (c (coll? limits))
          (c (not-negnum? t))
-         (c (not-negnum? t-max))]
+         (c (not-negnum? t-max))
+         (c (posnum? nu))]
    :post [(c (coll? %))]}
-  (let [nu 100 ; from the paper
-        n (count genes)]
+  (let [n (count genes)]
     (map (fn [gene gene-limits]
            (if (parameter-based-mutate? n t t-max)
              (parameter-based-mutate gene gene-limits t nu)
              gene))
          genes limits)))
+
+(defn parameter-based-default [genes limits t t-max]
+  {:pre [(c (coll? genes))
+         (c (coll? limits))
+         (c (not-negnum? t))
+         (c (not-negnum? t-max))]
+   :post [(c (coll? %))]}
+  (parameter-based genes limits t t-max 100))
 
