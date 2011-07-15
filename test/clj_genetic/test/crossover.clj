@@ -3,7 +3,8 @@
         clj-genetic.util
         midje.sweet))
 
-(def genes [1 2 3])
+(def chromosome1 [1 2 3])
+(def chromosome2 [2 3 4])
 (def limits [{:min 1 :max 2}
              {:min 2 :max 3}
              {:min 3 :max 4}])
@@ -35,5 +36,13 @@
   => (just (roughly 5.3008) (roughly 0.6991))
   (provided (rand) => 0.8))
 
-
+(fact
+  (simulated-binary-with-limits chromosome1 chromosome2 limits)
+  => [chromosome1 chromosome2]
+  (provided (rand) => 1)
+  (simulated-binary-with-limits chromosome1 chromosome2 limits)
+  => [[1 1 1] [2 2 2]]
+  (provided 
+    (rand) => 0
+    (simulated-binary-cross anything anything anything anything) => [1 2]))
 

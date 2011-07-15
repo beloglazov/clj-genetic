@@ -41,7 +41,7 @@
      :post [(c (coll? %))]}
     (let [new-genes (map (fn [gene1 gene2 gene-limits]
                            (if (< (rand) p)
-                             (simulated-binary-cross gene1 gene2 gene-limits)
+                             (simulated-binary-cross gene1 gene2 gene-limits nu)
                              [gene1 gene2]))
                          chromosome1 chromosome2 limits)]
       [(map first new-genes) (map second new-genes)])))
