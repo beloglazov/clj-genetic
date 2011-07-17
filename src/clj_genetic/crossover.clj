@@ -8,7 +8,7 @@
          (c (number? gene1))
          (c (number? gene2))]
    :post [(c (coll? %))]}
-  (let [[x1 x2] (if (< gene1 gene2)
+  (do (prn gene1 gene2) (let [[x1 x2] (if (< gene1 gene2)
                   [gene1 gene2]
                   [gene2 gene1])
         u (rand)
@@ -21,7 +21,7 @@
         y2 ($= 0.5 * (x1 + x2 + beta * (x2 - x1)))]
     (if (< gene1 gene2)
       [y1 y2]
-      [y2 y1])))
+      [y2 y1]))))
 
 (defn simulated-binary-with-limits
   
