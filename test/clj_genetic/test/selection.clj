@@ -34,6 +34,6 @@
                                   :fitness 2}])) => .b.)
 
 (fact
-  (count (tournament {.a. {:fitness 1}
-                      .b. {:fitness 2}
-                      .c. {:fitness 3}} 2)) => 2)
+  (count (tournament 2 {.a. {:fitness 1}
+                        .b. {:fitness 2}
+                        .c. {:fitness 3}})) => 2)

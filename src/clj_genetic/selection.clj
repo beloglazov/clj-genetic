@@ -11,20 +11,21 @@
          (c (contains? a-meta :fitness))
          (c (coll? b))
          (c (contains? b-meta :fitness))]
-   :post [(c (vector? %))]}
+   :post [(c (coll? %))]}
   (cond 
-    (and (:feasible a-meta)
-         (:not-feasible b-meta)) a
-    (and (:not-feasible a-meta)
-         (:feasible b-meta)) b
-    (> (:fitness a-meta)
-       (:fitness b-meta)) a
-    :else b))
+      (and (:feasible a-meta)
+           (:not-feasible b-meta)) a
+      (and (:not-feasible a-meta)
+           (:feasible b-meta)) b
+      (> (:fitness a-meta)
+         (:fitness b-meta)) a
+      :else b))
 
 (defn tournament
   "Applies the tournament selection without replacement to select n chromosomes"
-  [chromosomes n]
-  {:pre [(c (map? chromosomes))]
+  [n chromosomes]
+  {:pre [(c (posnum? n))
+         (c (map? chromosomes))]
    :post [(c (map? %))]}
   (let [chromosomes-vec (vec chromosomes)] 
     (into {} 

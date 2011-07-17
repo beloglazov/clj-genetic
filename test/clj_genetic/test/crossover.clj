@@ -23,24 +23,24 @@
   beta = (1/(2-a*u)^(1/(nu+1))) = (1/(2-1.555555556*0.8)^(1/(1+1))) = 1.150447484
   y1 = 0.5*(x1+x2-beta*(x2-x1)) = 0.5*(1+5-1.150447484*(5-1)) = 0.699105032
   y2 = 0.5*(x1+x2+beta*(x2-x1)) = 0.5*(1+5+1.150447484*(5-1)) = 5.300894968"
-  (simulated-binary-with-limits-cross 1 5 {:min 0 :max 30} nu) 
+  (simulated-binary-with-limits-cross {:min 0 :max 30} nu 1 5) 
   => (just (roughly 1.6337) (roughly 4.3662))
   (provided (rand) => 0.3)
-  (simulated-binary-with-limits-cross 1 5 {:min 0 :max 30} nu) 
+  (simulated-binary-with-limits-cross {:min 0 :max 30} nu 1 5) 
   => (just (roughly 0.6991) (roughly 5.3008))
   (provided (rand) => 0.8)
-  (simulated-binary-with-limits-cross 5 1 {:min 0 :max 30} nu) 
+  (simulated-binary-with-limits-cross {:min 0 :max 30} nu 5 1) 
   => (just (roughly 4.3662) (roughly 1.6337))
   (provided (rand) => 0.3)
-  (simulated-binary-with-limits-cross 5 1 {:min 0 :max 30} nu) 
+  (simulated-binary-with-limits-cross {:min 0 :max 30} nu 5 1) 
   => (just (roughly 5.3008) (roughly 0.6991))
   (provided (rand) => 0.8))
 
 (fact
-  (simulated-binary-with-limits chromosome1 chromosome2 limits)
+  (simulated-binary-with-limits limits chromosome1 chromosome2)
   => [chromosome1 chromosome2]
   (provided (rand) => 1)
-  (simulated-binary-with-limits chromosome1 chromosome2 limits)
+  (simulated-binary-with-limits limits chromosome1 chromosome2)
   => [[1 1 1] [2 2 2]]
   (provided 
     (rand) => 0
@@ -56,16 +56,16 @@
   beta = (1/(2*(1-u))^(1/(nu+1))) = (1/(2*(1-0.8))^(1/(1+1))) = 1.58113883
   y1 = 0.5*(x1+x2-beta*|x2-x1|) = 0.5*(1+5-1.58113883*(5-1)) = −0.16227766
   y2 = 0.5*(x1+x2+beta*|x2-x1|) = 0.5*(1+5+1.58113883*(5-1)) = 6.16227766"
-  (simulated-binary-cross 1 5 nu) => (just (roughly 1.4508) 
+  (simulated-binary-cross nu 1 5) => (just (roughly 1.4508) 
                                            (roughly 4.5491))
   (provided (rand) => 0.3) 
-  (simulated-binary-cross 1 5 nu) => (just (roughly -0.1622 0.01) 
+  (simulated-binary-cross nu 1 5) => (just (roughly -0.1622 0.01) 
                                            (roughly 6.1622 0.01))
   (provided (rand) => 0.8)
-  (simulated-binary-cross 5 1 nu) => (just (roughly 1.4508) 
+  (simulated-binary-cross nu 5 1) => (just (roughly 1.4508) 
                                            (roughly 4.5491))
   (provided (rand) => 0.3)
-  (simulated-binary-cross 5 1 nu) => (just (roughly -0.1622 0.01) 
+  (simulated-binary-cross nu 5 1) => (just (roughly -0.1622 0.01) 
                                            (roughly 6.1622 0.01))
   (provided (rand) => 0.8))
 

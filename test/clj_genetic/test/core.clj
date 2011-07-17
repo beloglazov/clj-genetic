@@ -3,29 +3,33 @@
         clj-genetic.util
         midje.sweet))
 
-(unfinished selection recombine terminate? fitness)
+(unfinished selection recombination terminate? fitness)
 
 (def population [1 2 3])
 
 (fact
-  (run evaluate selection recombine terminate? population) => 
-  (just {:results anything
-         :step 0})
-  (provided 
-    (selection anything) => anything
-    (terminate? (evaluate population) 0) => true)
-  
-  (run evaluate selection recombine terminate? population) => 
-  (just {:results anything
-         :step 1})
+  (run evaluate selection recombination terminate? population) => (just {:results anything
+                                                                         :step 0})
   (provided
-    (selection anything) => anything
-    (recombine anything) => anything
-    (terminate? (evaluate anything) 0) => false
-    (terminate? (evaluate anything) 1) => true))
+    (evaluate anything) => anything
+    (selection anything) => []
+    (terminate? anything 0) => true)
+  
+  (run evaluate selection recombination terminate? population) => (just {:results anything
+                                                                         :step 1})
+  (provided
+    (evaluate anything) => anything
+    (selection anything) => []
+    (recombination anything) => []
+    (terminate? anything 0) => false
+    (terminate? anything 1) => true))
 
 (fact
-  (evaluate fitness [.a. .b. .c.]) => (just {.a. number?
-                                             .b. number?
-                                             .c. number?})
+  (evaluate fitness [[.a.] [.b.] [.c.]]) 
+  => (just {[.a.] {:fitness 1
+                   :feasible true}
+            [.b.] {:fitness 1
+                   :feasible true}
+            [.c.] {:fitness 1
+                   :feasible true}})
   (provided (fitness anything) => 1))

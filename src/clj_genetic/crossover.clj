@@ -2,11 +2,11 @@
   (:use clj-genetic.util
         incanter.core))
 
-(defn simulated-binary-with-limits-cross [gene1 gene2 limits nu]
-  {:pre [(c (number? gene1))
-         (c (number? gene2))
-         (c (contains-keys? limits :min :max))
-         (c (posnum? nu))]
+(defn simulated-binary-with-limits-cross [limits nu gene1 gene2]
+  {:pre [(c (contains-keys? limits :min :max))
+         (c (posnum? nu))
+         (c (number? gene1))
+         (c (number? gene2))]
    :post [(c (coll? %))]}
   (let [[x1 x2] (if (< gene1 gene2)
                   [gene1 gene2]
@@ -25,31 +25,31 @@
 
 (defn simulated-binary-with-limits
   
-  ([chromosome1 chromosome2 limits]
-    {:pre [(c (coll? chromosome1))
-           (c (coll? chromosome2))
-           (c (coll? limits))]
+  ([limits chromosome1 chromosome2]
+    {:pre [(c (coll? limits))
+           (c (coll? chromosome1))
+           (c (coll? chromosome2))]
      :post [(c (coll? %))]}
-    (simulated-binary-with-limits chromosome1 chromosome2 limits 0.5 1))
+    (simulated-binary-with-limits limits 0.5 1 chromosome1 chromosome2))
   
-  ([chromosome1 chromosome2 limits p nu]
-    {:pre [(c (coll? chromosome1))
-           (c (coll? chromosome2))
-           (c (coll? limits))
+  ([limits p nu chromosome1 chromosome2]
+    {:pre [(c (coll? limits))
            (not-negnum? p)
-           (not-negnum? nu)]
+           (not-negnum? nu)
+           (c (coll? chromosome1))
+           (c (coll? chromosome2))]
      :post [(c (coll? %))]}
     (let [new-genes (map (fn [gene1 gene2 gene-limits]
                            (if (< (rand) p)
-                             (simulated-binary-with-limits-cross gene1 gene2 gene-limits nu)
+                             (simulated-binary-with-limits-cross gene-limits nu gene1 gene2)
                              [gene1 gene2]))
                          chromosome1 chromosome2 limits)]
       [(map first new-genes) (map second new-genes)])))
 
-(defn simulated-binary-cross [gene1 gene2 nu]
-  {:pre [(c (number? gene1))
-         (c (number? gene2))
-         (c (posnum? nu))]
+(defn simulated-binary-cross [nu gene1 gene2]
+  {:pre [(c (posnum? nu))
+         (c (number? gene1))
+         (c (number? gene2))]
    :post [(c (coll? %))]}
   (let [u (rand)
         beta (if (<= u 0.5)
@@ -65,13 +65,13 @@
     {:pre [(c (coll? chromosome1))
            (c (coll? chromosome2))]
      :post [(c (coll? %))]}
-    (simulated-binary chromosome1 chromosome2 0.5 1))
+    (simulated-binary 0.5 1 chromosome1 chromosome2))
   
-  ([chromosome1 chromosome2 p nu]
-    {:pre [(c (coll? chromosome1))
-           (c (coll? chromosome2))
-           (not-negnum? p)
-           (not-negnum? nu)]
+  ([p nu chromosome1 chromosome2]
+    {:pre [(not-negnum? p)
+           (not-negnum? nu)
+           (c (coll? chromosome1))
+           (c (coll? chromosome2))]
      :post [(c (coll? %))]}
     (let [new-genes (map (fn [gene1 gene2]
                            (if (< (rand) p)
