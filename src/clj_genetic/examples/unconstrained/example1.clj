@@ -14,17 +14,15 @@
 (def limits [{:min 0 :max 6}
              {:min 0 :max 6}])
 
-(def iterations 50)
+(def iterations 5)
 (def population-size (* 10 (count limits)))
-
-
 
 (defn -main [& args]
   (do 
     (prn (core/generate-population limits population-size)) 
     (prn 
     (core/run
-      (partial core/evaluate f)
+      (partial core/evaluate-min f)
       (partial selection/tournament population-size)
       (partial recombination/crossover 
                (partial crossover/simulated-binary-with-limits limits))

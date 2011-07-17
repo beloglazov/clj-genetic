@@ -8,20 +8,22 @@
          (c (number? gene1))
          (c (number? gene2))]
    :post [(c (coll? %))]}
-  (do (prn gene1 gene2) (let [[x1 x2] (if (< gene1 gene2)
-                  [gene1 gene2]
-                  [gene2 gene1])
-        u (rand)
-        b ($= 1 + 2 / (x2 - x1) * (min (- x1 (:min limits)) (- (:max limits) x2)))
-        a ($= 2 - b ** (-1 * (nu + 1)))
-        beta (if (<= u (/ 1 a))
-               ($= (a * u) ** (1 / (nu + 1)))
-               ($= (1 / (2 - a * u)) ** (1 / (nu + 1))))
-        y1 ($= 0.5 * (x1 + x2 - beta * (x2 - x1)))
-        y2 ($= 0.5 * (x1 + x2 + beta * (x2 - x1)))]
-    (if (< gene1 gene2)
-      [y1 y2]
-      [y2 y1]))))
+  (if (= gene1 gene2)
+    [gene1 gene2]
+    (let [[x1 x2] (if (< gene1 gene2)
+                    [gene1 gene2]
+                    [gene2 gene1])
+          u (rand)
+          b ($= 1 + 2 / (x2 - x1) * (min (- x1 (:min limits)) (- (:max limits) x2)))
+          a ($= 2 - b ** (-1 * (nu + 1)))
+          beta (if (<= u (/ 1 a))
+                 ($= (a * u) ** (1 / (nu + 1)))
+                 ($= (1 / (2 - a * u)) ** (1 / (nu + 1))))
+          y1 ($= 0.5 * (x1 + x2 - beta * (x2 - x1)))
+          y2 ($= 0.5 * (x1 + x2 + beta * (x2 - x1)))]
+      (if (< gene1 gene2)
+        [y1 y2]
+        [y2 y1]))))
 
 (defn simulated-binary-with-limits
   

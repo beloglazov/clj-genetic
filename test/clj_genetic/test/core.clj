@@ -3,7 +3,7 @@
         clj-genetic.util
         midje.sweet))
 
-(unfinished selection recombination terminate? fitness)
+(unfinished evaluate selection recombination terminate? fitness)
 
 (def population [1 2 3])
 
@@ -25,11 +25,21 @@
     (terminate? anything 1) => true))
 
 (fact
-  (evaluate fitness [[.a.] [.b.] [.c.]]) 
+  (evaluate-max fitness [[.a.] [.b.] [.c.]]) 
   => (just {[.a.] {:fitness 1
                    :feasible true}
             [.b.] {:fitness 1
                    :feasible true}
             [.c.] {:fitness 1
+                   :feasible true}})
+  (provided (fitness anything) => 1))
+
+(fact
+  (evaluate-min fitness [[.a.] [.b.] [.c.]]) 
+  => (just {[.a.] {:fitness -1
+                   :feasible true}
+            [.b.] {:fitness -1
+                   :feasible true}
+            [.c.] {:fitness -1
                    :feasible true}})
   (provided (fitness anything) => 1))
