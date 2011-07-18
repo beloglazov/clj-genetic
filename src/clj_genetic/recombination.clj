@@ -17,5 +17,5 @@
          (c (fn? mutation-operator))
          (c (coll? chromosomes))]
    :post [(c (coll? %))]}
-  (crossover crossover-operator
-       (map mutation-operator chromosomes)))
+  (map mutation-operator 
+       (crossover crossover-operator chromosomes)))
