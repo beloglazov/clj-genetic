@@ -51,7 +51,16 @@
                              :feasible true
                              :not-feasible false}))) => .b.)
 
-(comment (fact
-  (count (tournament 2 {.a. {:fitness 1}
-                        .b. {:fitness 2}
-                        .c. {:fitness 3}})) => 2))
+(fact
+  (count (binary-tournament-with-replacement 
+           3                                             
+           [(with-meta [.a.] {:fitness 1
+                              :feasible true
+                              :not-feasible false}) 
+            (with-meta [.b.] {:fitness 2
+                              :feasible true
+                              :not-feasible false})
+            (with-meta [.c.] {:fitness 4
+                              :feasible true
+                              :not-feasible false})])) => 3)
+
