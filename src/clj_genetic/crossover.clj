@@ -21,9 +21,7 @@
                  ($= (1 / (2 - a * u)) ** (1 / (nu + 1))))
           y1 ($= 0.5 * (x1 + x2 - beta * (x2 - x1)))
           y2 ($= 0.5 * (x1 + x2 + beta * (x2 - x1)))]
-      (if (< gene1 gene2)
-        [y1 y2]
-        [y2 y1]))))
+      [y1 y2])))
 
 (defn simulated-binary-with-limits
   

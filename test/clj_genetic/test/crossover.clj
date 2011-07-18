@@ -30,10 +30,10 @@
   => (just (roughly 0.6991) (roughly 5.3008))
   (provided (rand) => 0.8)
   (simulated-binary-with-limits-cross {:min 0 :max 30} nu 5 1) 
-  => (just (roughly 4.3662) (roughly 1.6337))
+  => (just (roughly 1.6337) (roughly 4.3662))
   (provided (rand) => 0.3)
   (simulated-binary-with-limits-cross {:min 0 :max 30} nu 5 1) 
-  => (just (roughly 5.3008) (roughly 0.6991))
+  => (just (roughly 0.6991) (roughly 5.3008))
   (provided (rand) => 0.8))
 
 (fact
