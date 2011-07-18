@@ -26,20 +26,20 @@
 
 (fact
   (evaluate-max fitness [[.a.] [.b.] [.c.]]) 
-  => (just {[.a.] {:fitness 1
-                   :feasible true}
-            [.b.] {:fitness 1
-                   :feasible true}
-            [.c.] {:fitness 1
-                   :feasible true}})
+  => (just [.a.] [.b.] [.c.])
+  (provided (fitness anything) => 1)
+  (map meta (evaluate-max fitness [[.a.] [.b.] [.c.]])) 
+  => (just {:fitness 1 :feasible true :not-feasible false}
+           {:fitness 1 :feasible true :not-feasible false}
+           {:fitness 1 :feasible true :not-feasible false})
   (provided (fitness anything) => 1))
 
 (fact
   (evaluate-min fitness [[.a.] [.b.] [.c.]]) 
-  => (just {[.a.] {:fitness -1
-                   :feasible true}
-            [.b.] {:fitness -1
-                   :feasible true}
-            [.c.] {:fitness -1
-                   :feasible true}})
+  => (just [.a.] [.b.] [.c.])
+  (provided (fitness anything) => 1)
+  (map meta (evaluate-min fitness [[.a.] [.b.] [.c.]])) 
+  => (just {:fitness -1 :feasible true :not-feasible false}
+           {:fitness -1 :feasible true :not-feasible false}
+           {:fitness -1 :feasible true :not-feasible false})
   (provided (fitness anything) => 1))

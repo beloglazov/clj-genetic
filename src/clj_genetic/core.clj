@@ -17,28 +17,28 @@
   [fitness chromosomes]
   {:pre [(c (fn? fitness))
          (c (coll? chromosomes))]
-   :post [(c (map? %))]}
-  (let [tmp (zipmap chromosomes 
+   :post [(c (coll? %))]}
+  (map #(with-meta % {:fitness (apply fitness %)
+                      :feasible true
+                      :not-feasible false}) 
+       chromosomes))
+
+(comment (zipmap chromosomes 
           (map 
             #(hash-map :fitness (apply fitness %)
                        :feasible true) 
-            chromosomes))]
-    (prn tmp)
-    tmp))
+            chromosomes)))
 
 (defn evaluate-min
   "Evaluates the fitness function for each chromosome to minimize the objective function"
   [fitness chromosomes]
   {:pre [(c (fn? fitness))
          (c (coll? chromosomes))]
-   :post [(c (map? %))]}
-  (let [tmp (zipmap chromosomes 
-          (map 
-            #(hash-map :fitness (- (apply fitness %))
-                       :feasible true) 
-            chromosomes))]
-    (prn tmp)
-    tmp))
+   :post [(c (coll? %))]}
+  (map #(with-meta % {:fitness (- (apply fitness %))
+                      :feasible true
+                      :not-feasible false}) 
+       chromosomes))
 
 (defn run [evaluate selection recombination terminate? initial-population]
   {:pre [(c (fn? evaluate))
@@ -57,3 +57,5 @@
          :step step}
         (recur (inc step)
                (recombination selected-chromosomes))))))))
+
+

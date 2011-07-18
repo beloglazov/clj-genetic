@@ -1,7 +1,7 @@
 (ns clj-genetic.selection
   (:use clj-genetic.util))
 
-(defn tournament-select
+(defn binary-tournament-select
   "Tournament selection with replacement:
    1. Any feasible solution is preferred to any infeasible solution.
    2. Among two feasible solutions, the one having better objective function value is preferred.
@@ -21,8 +21,34 @@
          (:fitness b-meta)) a
       :else b))
 
-(defn tournament
-  "Applies the tournament selection without replacement to select n chromosomes"
+(defn binary-tournament-with-replacement [n chromosomes]
+  {:pre [(c (posnum? n))
+         (c (coll? chromosomes))]
+   :post [(c (coll? %))]}
+  (map (fn [x] 
+         (binary-tournament-select (rand-nth chromosomes)
+                                   (rand-nth chromosomes)))
+       (range n)))
+
+(comment (loop [selected-chromosomes []]
+    (if (= n (count selected-chromosomes))
+      selected-chromosomes
+      (recur (conj selected-chromosomes 
+                   (binary-tournament-select (rand-nth chromosomes)
+                                             (rand-nth chromosomes)))))))
+
+(defn binary-tournament-without-replacement [n chromosomes]
+  {:pre [(c (posnum? n))
+         (c (coll? chromosomes))]
+   :post [(c (coll? %))]}
+  (map #(apply binary-tournament-select %) 
+         (partition 2 (concat (shuffle chromosomes) 
+                              (shuffle chromosomes)))))
+
+(comment (defn tournament
+  "Applies the tournament selection with replacement to select n chromosomes.
+   The algorithm applies elitism - exactly two copies of the best chromosome are 
+   always selected."
   [n chromosomes]
   {:pre [(c (posnum? n))
          (c (map? chromosomes))]
@@ -34,4 +60,4 @@
               selected-chromosomes
               (recur (conj selected-chromosomes 
                            (tournament-select (rand-nth chromosomes-vec)
-                                              (rand-nth chromosomes-vec))))))))))
+                                              (rand-nth chromosomes-vec)))))))))))

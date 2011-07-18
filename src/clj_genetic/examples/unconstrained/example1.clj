@@ -8,14 +8,12 @@
         incanter.core)
   (:gen-class))
 
-(defn f [x1 x2]
-  ($= (x1 ** 2 + x2 - 11) ** 2 + (x1 + x2 ** 2 - 7) ** 2))
+(defn f [x]
+  (Math/abs (- x 0.5)))
 
-(def limits [{:min 0 :max 6}
-             {:min 0 :max 6}])
-
-(def iterations 5)
-(def population-size (* 10 (count limits)))
+(def limits [{:min 0 :max 1}])
+(def iterations 200)
+(def population-size 50)
 
 (defn -main [& args]
   (do 
@@ -23,9 +21,8 @@
     (prn 
     (core/run
       (partial core/evaluate-min f)
-      (partial selection/tournament population-size)
+      (partial selection/binary-tournament-without-replacement population-size)
       (partial recombination/crossover 
                (partial crossover/simulated-binary-with-limits limits))
       #(>= %2 iterations)
       (core/generate-population limits population-size))))) 
-
