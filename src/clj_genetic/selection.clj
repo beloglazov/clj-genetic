@@ -46,20 +46,3 @@
   (map #(apply binary-tournament-select %) 
          (partition 2 (concat (shuffle chromosomes) 
                               (shuffle chromosomes)))))
-
-(comment (defn tournament
-  "Applies the tournament selection with replacement to select n chromosomes.
-   The algorithm applies elitism - exactly two copies of the best chromosome are 
-   always selected."
-  [n chromosomes]
-  {:pre [(c (posnum? n))
-         (c (map? chromosomes))]
-   :post [(c (map? %))]}
-  (let [chromosomes-vec (vec chromosomes)] 
-    (into {} ; converting into a map removes duplicates - this is wrong!
-          (loop [selected-chromosomes []]
-            (do (prn (count selected-chromosomes) "out of" n selected-chromosomes) (if (= n (count selected-chromosomes))
-              selected-chromosomes
-              (recur (conj selected-chromosomes 
-                           (tournament-select (rand-nth chromosomes-vec)
-                                              (rand-nth chromosomes-vec)))))))))))
