@@ -52,8 +52,7 @@
                              :not-feasible false}))) => .b.)
 
 (fact
-  (count (binary-tournament-with-replacement 
-           3                                             
+  (count (binary-tournament-with-replacement     
            [(with-meta [.a.] {:fitness 1
                               :feasible true
                               :not-feasible false}) 
@@ -66,7 +65,6 @@
 
 (fact
   (binary-tournament-without-replacement 
-    3                                             
     [(with-meta [.a.] {:fitness 1
                        :feasible true
                        :not-feasible false}) 
@@ -76,9 +74,19 @@
      (with-meta [.c.] {:fitness 3
                        :feasible true
                        :not-feasible false})]) 
-  => (and
-       (just anything anything anything)
-       (contains [[.c.] [.c.]] :gaps-ok :in-any-order)))
+  => (contains [[.c.]])
+  (count (binary-tournament-without-replacement 
+           [(with-meta [.a.] {:fitness 1
+                              :feasible true
+                              :not-feasible false}) 
+            (with-meta [.b.] {:fitness 2
+                              :feasible true
+                              :not-feasible false})
+            (with-meta [.c.] {:fitness 3
+                              :feasible true
+                              :not-feasible false})])) 
+  => 3)
+
 
 
 

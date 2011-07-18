@@ -23,26 +23,37 @@
          (:fitness b-meta)) a
       :else b)))
 
-(defn binary-tournament-with-replacement [n chromosomes]
-  {:pre [(c (posnum? n))
-         (c (coll? chromosomes))]
-   :post [(c (coll? %))]}
+(defn binary-tournament-with-replacement 
+  "Preserves the population size" 
+  [chromosomes]
+  {:pre [(c (coll? chromosomes))]
+   :post [(c (and
+               (coll? %)
+               (= (count %) (count chromosomes))))]}
   (map (fn [x] 
          (binary-tournament-select (rand-nth chromosomes)
                                    (rand-nth chromosomes)))
-       (range n)))
+       chromosomes))
 
-(comment (loop [selected-chromosomes []]
-    (if (= n (count selected-chromosomes))
-      selected-chromosomes
-      (recur (conj selected-chromosomes 
-                   (binary-tournament-select (rand-nth chromosomes)
-                                             (rand-nth chromosomes)))))))
-
-(defn binary-tournament-without-replacement [n chromosomes]
-  {:pre [(c (posnum? n))
-         (c (coll? chromosomes))]
-   :post [(c (coll? %))]}
-  (map #(apply binary-tournament-select %) 
+(defn binary-tournament-without-replacement 
+  "Preserves the population size"
+  [chromosomes]
+  {:pre [(c (coll? chromosomes))]
+   :post [(c (and
+               (coll? %)
+               (= (count %) (count chromosomes))))]}
+  (if (even? (count chromosomes))
+    (map #(apply binary-tournament-select %) 
          (partition 2 (concat (shuffle chromosomes) 
-                              (shuffle chromosomes)))))
+                              (shuffle chromosomes))))
+    (let [permutation1 (partition-all 2 (shuffle chromosomes))
+          permutation2 (partition-all 2 (shuffle chromosomes))
+          last1 (first (last permutation1))]
+      (conj (map #(apply binary-tournament-select %) 
+                 (concat (butlast permutation1) 
+                         (butlast permutation2)))
+            last1))))
+
+
+
+
