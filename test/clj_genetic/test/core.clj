@@ -8,15 +8,16 @@
 (def population [1 2 3])
 
 (fact
-  (run evaluate selection recombination terminate? population) => (just {:results anything
-                                                                         :step 0})
+  (run evaluate selection recombination terminate? population) 
+  => (just {:results anything
+            :step 0})
   (provided
     (evaluate anything) => anything
-    (selection anything) => []
     (terminate? anything 0) => true)
   
-  (run evaluate selection recombination terminate? population) => (just {:results anything
-                                                                         :step 1})
+  (run evaluate selection recombination terminate? population) 
+  => (just {:results anything
+            :step 1})
   (provided
     (evaluate anything) => anything
     (selection anything) => []

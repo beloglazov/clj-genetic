@@ -23,12 +23,6 @@
                       :not-feasible false}) 
        chromosomes))
 
-(comment (zipmap chromosomes 
-          (map 
-            #(hash-map :fitness (apply fitness %)
-                       :feasible true) 
-            chromosomes)))
-
 (defn evaluate-min
   "Evaluates the fitness function for each chromosome to minimize the objective function"
   [fitness chromosomes]
@@ -40,22 +34,34 @@
                       :not-feasible false}) 
        chromosomes))
 
-(defn run [evaluate selection recombination terminate? initial-population]
-  {:pre [(c (fn? evaluate))
-         (c (fn? selection))
-         (c (fn? recombination))
-         (c (fn? terminate?))
-         (c (coll? initial-population))]
-   :post [(c (map? %))]}
-  (loop [step 0
-         population initial-population]
-    (do (prn step) 
-      (let [results (evaluate population)
-          selected-chromosomes (keys (selection results))] 
-      (do (prn "selected") (if (terminate? results step)
-        {:results results
-         :step step}
-        (recur (inc step)
-               (recombination selected-chromosomes))))))))
+(defn run 
+  
+  ([evaluate selection recombination terminate? initial-population]
+    {:pre [(c (fn? evaluate))
+           (c (fn? selection))
+           (c (fn? recombination))
+           (c (fn? terminate?))
+           (c (coll? initial-population))]
+     :post [(c (map? %))]}
+    (run evaluate selection recombination terminate? initial-population (fn [x y])))
+  
+  ([evaluate selection recombination terminate? initial-population reporting]
+    {:pre [(c (fn? evaluate))
+           (c (fn? selection))
+           (c (fn? recombination))
+           (c (fn? terminate?))
+           (c (coll? initial-population))
+           (c (fn? reporting))]
+     :post [(c (map? %))]}
+    (loop [step 0
+           population initial-population]
+      (let [results (evaluate population)] 
+        (do 
+          (reporting results step) 
+          (if (terminate? results step)
+            {:results results
+             :step step}
+            (recur (inc step)
+                   (recombination (selection results)))))))))
 
 
