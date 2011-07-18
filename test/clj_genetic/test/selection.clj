@@ -64,3 +64,21 @@
                               :feasible true
                               :not-feasible false})])) => 3)
 
+(fact
+  (binary-tournament-without-replacement 
+    3                                             
+    [(with-meta [.a.] {:fitness 1
+                       :feasible true
+                       :not-feasible false}) 
+     (with-meta [.b.] {:fitness 2
+                       :feasible true
+                       :not-feasible false})
+     (with-meta [.c.] {:fitness 3
+                       :feasible true
+                       :not-feasible false})]) 
+  => (and
+       (just anything anything anything)
+       (contains [[.c.] [.c.]] :gaps-ok :in-any-order)))
+
+
+
