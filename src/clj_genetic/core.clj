@@ -17,7 +17,7 @@
   [fitness chromosomes]
   {:pre [(c (fn? fitness))
          (c (coll? chromosomes))]
-   :post [(c (coll? %))]}
+   :post [(c (every-contains-meta? % :fitness :feasible :not-feasible))]}
   (map #(with-meta % {:fitness (apply fitness %)
                       :feasible true
                       :not-feasible false}) 
@@ -28,7 +28,7 @@
   [fitness chromosomes]
   {:pre [(c (fn? fitness))
          (c (coll? chromosomes))]
-   :post [(c (coll? %))]}
+   :post [(c (every-contains-meta? % :fitness :feasible :not-feasible))]}
   (map #(with-meta % {:fitness (- (apply fitness %))
                       :feasible true
                       :not-feasible false}) 
