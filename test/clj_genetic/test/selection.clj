@@ -8,30 +8,48 @@
    1. Any feasible solution is preferred to any infeasible solution.
    2. Among two feasible solutions, the one having better objective function value is preferred.
    3. Among two infeasible solutions, the one having smaller constraint violation is preferred."
-  (first (binary-tournament-select [.a. {:feasible true
-                                  :fitness 1}] 
-                            [.b. {:not-feasible true
-                                  :fitness 1}])) => .a.
-  (first (binary-tournament-select [.a. {:not-feasible true
-                                  :fitness 1}] 
-                            [.b. {:feasible true
-                                  :fitness 1}])) => .b.
-  (first (binary-tournament-select [.a. {:not-feasible true
-                                  :fitness 2}] 
-                            [.b. {:not-feasible true
-                                  :fitness 1}])) => .a.
-  (first (binary-tournament-select [.a. {:not-feasible true
-                                  :fitness 1}] 
-                            [.b. {:not-feasible true
-                                  :fitness 2}])) => .b.
-  (first (binary-tournament-select [.a. {:feasible true
-                                  :fitness 2}] 
-                            [.b. {:feasible true
-                                  :fitness 1}])) => .a.
-  (first (binary-tournament-select [.a. {:feasible true
-                                  :fitness 1}] 
-                            [.b. {:feasible true
-                                  :fitness 2}])) => .b.)
+  (first (binary-tournament-select 
+           (with-meta [.a.] {:fitness 1
+                             :feasible true
+                             :not-feasible false})  
+           (with-meta [.b.] {:fitness 1
+                             :feasible false
+                             :not-feasible true}))) => .a.
+  (first (binary-tournament-select 
+           (with-meta [.a.] {:fitness 1
+                             :feasible false
+                             :not-feasible true}) 
+           (with-meta [.b.] {:fitness 1
+                             :feasible true
+                             :not-feasible false}))) => .b.
+  (first (binary-tournament-select 
+           (with-meta [.a.] {:fitness 2
+                             :feasible false
+                             :not-feasible true}) 
+           (with-meta [.b.] {:fitness 1
+                             :feasible false
+                             :not-feasible true}))) => .a.
+  (first (binary-tournament-select 
+           (with-meta [.a.] {:fitness 1
+                             :feasible false
+                             :not-feasible true}) 
+           (with-meta [.b.] {:fitness 2
+                             :feasible false
+                             :not-feasible true}))) => .b.
+  (first (binary-tournament-select 
+           (with-meta [.a.] {:fitness 2
+                             :feasible true
+                             :not-feasible false}) 
+           (with-meta [.b.] {:fitness 1
+                             :feasible true
+                             :not-feasible false}))) => .a.
+  (first (binary-tournament-select 
+           (with-meta [.a.] {:fitness 1
+                             :feasible true
+                             :not-feasible false}) 
+           (with-meta [.b.] {:fitness 2
+                             :feasible true
+                             :not-feasible false}))) => .b.)
 
 (comment (fact
   (count (tournament 2 {.a. {:fitness 1}
