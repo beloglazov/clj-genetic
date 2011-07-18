@@ -151,3 +151,7 @@
 (defn contains-keys? [coll & ks]
   "Check if the coll contains all the listed keys"
   (every? (partial contains? coll) ks))
+
+(defn contains-meta? [obj & ks]
+  "Check if the coll contains all the listed keys in its meta map"
+  (every? (partial contains? (meta obj)) ks))
