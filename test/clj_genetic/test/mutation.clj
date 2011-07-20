@@ -28,9 +28,9 @@
   (provided (rand) => 1.0))
 
 (fact
-  (parameter-based-with-limits genes limits t t-max nu) => genes
+  (parameter-based-with-limits limits genes t t-max nu) => genes
   (provided (parameter-based-mutate? n t t-max) => false)
-  (parameter-based-with-limits genes limits t t-max nu) => (just 5 5 5)
+  (parameter-based-with-limits limits genes t t-max nu) => (just 5 5 5)
   (provided (parameter-based-mutate? n t t-max) => true
             (parameter-based-mutate anything
                                     anything
@@ -49,9 +49,9 @@
    = 1-(2*(1-0.8)+2*(0.8-0.5)*(1-1/30)^(100+5+1))^(1/(100+5+1)) =  
    = 0.008228868 
    y = x + delta * d-max = 1+0.008228868*30 = 1.24686604"  
-  (parameter-based-mutate 1 {:min 0 :max 30} t nu) => (roughly 0.8608)
+  (parameter-based-mutate {:min 0 :max 30} 1 t nu) => (roughly 0.8608)
   (provided (rand) => 0.3)
-  (parameter-based-mutate 1 {:min 0 :max 30} t nu) => (roughly 1.2468)
+  (parameter-based-mutate {:min 0 :max 30} 1 t nu) => (roughly 1.2468)
   (provided (rand) => 0.8))
 
 (fact

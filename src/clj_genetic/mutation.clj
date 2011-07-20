@@ -25,9 +25,9 @@
                   ($= 1 - (2 * (1 - u)) ** (1 / (nu + 1))))]
       (+ gene (* delta delta-max))))
   
-  ([gene limits t nu-base]
-    {:pre [(c (number? gene))
-           (c (contains-keys? limits :min :max))
+  ([limits gene t nu-base]
+    {:pre [(c (contains-keys? limits :min :max))
+           (c (number? gene))
            (c (not-negnum? nu-base))
            (c (not-negnum? t))]
      :post [(c (number? %))]}
@@ -64,24 +64,24 @@
 
 (defn parameter-based-with-limits
     
-  ([genes limits t t-max]
-    {:pre [(c (coll? genes))
-           (c (coll? limits))
+  ([limits genes t t-max]
+    {:pre [(c (coll? limits))
+           (c (coll? genes))
            (c (not-negnum? t))
            (c (not-negnum? t-max))]
      :post [(c (coll? %))]}
-    (parameter-based-with-limits genes limits t t-max 100))
+    (parameter-based-with-limits limits genes t t-max 100))
   
-  ([genes limits t t-max nu]
-    {:pre [(c (coll? genes))
-           (c (coll? limits))
+  ([limits genes t t-max nu]
+    {:pre [(c (coll? limits))
+           (c (coll? genes))
            (c (not-negnum? t))
            (c (not-negnum? t-max))
            (c (posnum? nu))]
      :post [(c (coll? %))]}
     (let [n (count genes)]
-      (map (fn [gene gene-limits]
+      (map (fn [gene-limits gene]
              (if (parameter-based-mutate? n t t-max)
-               (parameter-based-mutate gene gene-limits t nu)
+               (parameter-based-mutate gene-limits gene t nu)
                gene))
-           genes limits))))
+           limits genes))))
