@@ -25,7 +25,7 @@
                    [0 0 10 10 10]))))
 
 (def max-generations 200)
-(def population-size 50)
+(def population-size 20)
 
 (defn -main [& args]
   (prn (run

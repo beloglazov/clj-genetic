@@ -15,9 +15,6 @@
   `(if ~arg true 
      (throw (IllegalArgumentException. ~err-msg))))) 
 
-(defn rand-from [from to]
-  (+ from (rand (- to from))))
-
 (defn not-associative?      [& x] (not (apply associative?      x)))
 (defn not-bound?            [& x] (not (apply bound?            x)))
 (defn not-char?             [& x] (not (apply char?             x)))

@@ -5,7 +5,7 @@
 
 (fact 
   (generate-population 3) => (just [2] [2] [2])
-  (provided (rand) => 2)
+  (provided (rand-from anything anything) => 2)
   (generate-population 3 [{:min 0 :max 3}]) => (just [2] [2] [2])
   (provided (rand-from 0 3) => 2))
 

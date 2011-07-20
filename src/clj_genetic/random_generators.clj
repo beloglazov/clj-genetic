@@ -1,13 +1,20 @@
 (ns clj-genetic.random-generators
   (:use clj-genetic.util))
 
-(defn generate-population 
+(defn rand-from [from to]
+  {:pre [(c (number? from))
+         (c (number? to))]
+   :post [(c (number? %))]}
+  (+ from (rand (- to from))))
+
+(defn generate-population
+  "If the limits are not specified, the values are generated in [-1000, 1000]"
   
   ([n]
     {:pre [(c (posnum? n))]
      :post [(c (coll? %))]}
-    (map (fn [i] [(rand)]) 
-         (range n)))
+    (generate-population n [{:min -1000 
+                             :max 1000}]))
   
   ([n limits]
     {:pre [(c (posnum? n))
