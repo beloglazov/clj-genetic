@@ -25,7 +25,7 @@
                    [0 0 10 10 10]))))
 
 (def max-generations 200)
-(def population-size 20)
+(def population-size 50)
 
 (defn -main [& args]
   (prn (run
@@ -34,4 +34,4 @@
          (partial recombination/crossover crossover/simulated-binary)
          (terminate-max-generations? max-generations)
          (random-generators/generate-population-n-vars population-size 2)
-         #(prn "Generation: " %1 "; Results: " %2))))
+         #(prn "Generation: " %2 "; Results: " %1))))

@@ -26,4 +26,4 @@
                   (partial crossover/simulated-binary-with-limits limits))
          (terminate-max-generations? max-generations)
          (random-generators/generate-population population-size limits)
-         #(prn "Generation: " %1 "; Results: " %2)))) 
+         #(prn "Generation: " %2 "; Results: " %1)))) 

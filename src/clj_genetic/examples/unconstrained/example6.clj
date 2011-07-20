@@ -26,8 +26,6 @@
                    [0.1 0.9 0.45 0.27 0.65]
                    [0 0 10 10 10]))))
 
-(def limits [{:min 0 :max 10}
-             {:min 0 :max 10}])
 (def max-generations 200)
 (def population-size 20)
 
@@ -36,9 +34,8 @@
          (objective/maximize f)
          selection/binary-tournament-without-replacement
          (partial recombination/crossover-mutation 
-                  crossover/simulated-binary
-                  ;(partial mutation/parameter-based max-generations)
-                  (partial mutation/parameter-based-with-limits limits max-generations))
+                  crossover/simulated-binary                  
+                  (partial mutation/parameter-based max-generations))
          (terminate-max-generations? max-generations)
          (random-generators/generate-population-n-vars population-size 2)
-         #(prn "Generation: " %1 "; Results: " %2))))
+         #(prn "Generation: " %2 "; Results: " %1))))

@@ -9,7 +9,7 @@
   (:gen-class))
 
 ; This example uses both crossover and mutation
-; From a paper: An effcient constraint handling method for genetic algorithms
+; From the paper: An effcient constraint handling method for genetic algorithms
 
 (defn f 
   "Test Problem 1 -> minimize
@@ -33,4 +33,4 @@
                   (partial mutation/parameter-based-with-limits limits max-generations))
          (terminate-max-generations? max-generations)
          (random-generators/generate-population population-size limits)
-         #(prn "Generation: " %1 "; Results: " %2))))
+         #(prn "Generation: " %2 "; Results: " %1))))

@@ -34,4 +34,4 @@
          (partial recombination/crossover crossover/simulated-binary)
          (terminate-max-generations? max-generations)
          (random-generators/generate-population-n-vars population-size 2)
-         #(prn "Generation: " %1 "; Results: " %2))))
+         #(prn "Generation: " %2 "; Results: " %1))))
