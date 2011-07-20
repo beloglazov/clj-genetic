@@ -1,6 +1,6 @@
 (ns clj-genetic.examples.unconstrained.example2
-  (:require [clj-genetic.core :as core]        
-            [clj-genetic.objective :as objective]
+  (:use clj-genetic.core)
+  (:require [clj-genetic.objective :as objective]
             [clj-genetic.selection :as selection]
             [clj-genetic.recombination :as recombination]
             [clj-genetic.mutation :as mutation]
@@ -21,11 +21,11 @@
 (def population-size 50)
 
 (defn -main [& args]
-  (prn (core/run
+  (prn (run
          (objective/minimize f)
          selection/binary-tournament-without-replacement
          (partial recombination/crossover 
                   (partial crossover/simulated-binary-with-limits limits))
-         #(>= %2 max-generations)
+         (terminate-max-generations? max-generations)
          (random-generators/generate-population population-size limits)
          #(prn "Generation: " %1 "; Results: " %2))))
