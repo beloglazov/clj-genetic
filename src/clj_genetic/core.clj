@@ -34,6 +34,22 @@
                       :not-feasible false}) 
        chromosomes))
 
+(defn max-result [results]
+  {:pre [(c (coll? results))]
+   :post [(c (coll? %))]}
+  (reduce #(if (> (:fitness (meta %1)) (:fitness (meta %2)))
+             %1
+             %2) 
+          results))
+
+(defn min-result [results]
+  {:pre [(c (coll? results))]
+   :post [(c (coll? %))]}
+  (reduce #(if (< (:fitness (meta %1)) (:fitness (meta %2)))
+             %1
+             %2) 
+          results))
+
 (defn run 
   
   ([evaluate selection recombination terminate? initial-population]

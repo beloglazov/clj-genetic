@@ -44,3 +44,17 @@
            {:fitness -1 :feasible true :not-feasible false}
            {:fitness -1 :feasible true :not-feasible false})
   (provided (fitness anything) => 1))
+
+(fact 
+  (min-result 
+    [(with-meta [1] {:fitness 5 :feasible true :not-feasible false})
+     (with-meta [2] {:fitness 1 :feasible true :not-feasible false})
+     (with-meta [3] {:fitness 3 :feasible true :not-feasible false})])
+  => (just [2]))
+
+(fact 
+  (max-result 
+    [(with-meta [1] {:fitness 5 :feasible true :not-feasible false})
+     (with-meta [2] {:fitness 1 :feasible true :not-feasible false})
+     (with-meta [3] {:fitness 3 :feasible true :not-feasible false})])
+  => (just [1]))

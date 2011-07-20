@@ -8,7 +8,9 @@
         incanter.core)
   (:gen-class))
 
-(defn f [x]
+(defn f 
+  "Minimum at x=0.5, f(0.5)=0"
+  [x]
   (Math/abs (- x 0.5)))
 
 (def limits [{:min 0 :max 1}])
@@ -16,13 +18,14 @@
 (def population-size 50)
 
 (defn -main [& args]
-  (do 
-    (prn (core/generate-population limits population-size)) 
-    (prn 
-    (core/run
-      (partial core/evaluate-min f)
-      (partial selection/binary-tournament-without-replacement population-size)
-      (partial recombination/crossover 
-               (partial crossover/simulated-binary-with-limits limits))
-      #(>= %2 iterations)
-      (core/generate-population limits population-size))))) 
+  (let [initial-population (core/generate-population limits population-size)] 
+    (do 
+      (prn initial-population) 
+      (prn (core/run
+             (partial core/evaluate-min f)
+             selection/binary-tournament-without-replacement
+             (partial recombination/crossover 
+                      (partial crossover/simulated-binary-with-limits limits))
+             #(>= %2 iterations)
+             initial-population
+             #(prn "step: " %1 "; results: " %2)))))) 
