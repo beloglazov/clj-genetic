@@ -14,7 +14,7 @@
   (Math/abs (- x 0.5)))
 
 (def limits [{:min 0 :max 1}])
-(def iterations 100)
+(def iterations 200)
 (def population-size 50)
 
 (defn -main [& args]
@@ -31,7 +31,7 @@
               initial-population
               #(prn "step: " %1 "; results: " %2))
             step (:step output)
-            result (min-result (:results output))]
+            result (core/min-result (:results output))]
         (prn "Step: " step)
         (prn "Result: " result)
         (prn "Fitness: " (- (:fitness (meta result)))))))) 

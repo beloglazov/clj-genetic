@@ -1,4 +1,4 @@
-(ns clj-genetic.examples.unconstrained.example2
+(ns clj-genetic.examples.unconstrained.example3
   (:use clj-genetic.util 
         [clj-genetic.core :as core]        
         [clj-genetic.selection :as selection]
@@ -9,11 +9,12 @@
   (:gen-class))
 
 (defn f 
-  "Minimum at x=0.5, f(0.5)=0, discontinuity at the minimum point"
+  "A local minimum at x=0.75, the global minimum at x=0.25
+   f(0.75)=-0.5, f(0.25)=-1.0"
   [x]
-  (if (< x 0.5)
-    (- 0.6 x)
-    (- x 0.5)))
+  (if (<= x 0.5)
+    (- (Math/pow Math/E (- (/ (Math/pow (- x 0.25) 2) 0.01))))
+    (- (* 0.5 (Math/pow Math/E (- (/ (Math/pow (- x 0.75) 2) 0.01)))))))
 
 (def limits [{:min 0 :max 1}])
 (def iterations 200)
