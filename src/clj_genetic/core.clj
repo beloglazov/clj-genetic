@@ -1,25 +1,6 @@
 (ns clj-genetic.core
   (:use clj-genetic.util))
 
-(defn generate-population
-    
-  ([n]
-    {:pre [(c (posnum? n))]
-     :post [(c (coll? %))]}
-    (map (fn [i] [(rand)]) 
-         (range n)))
-  
-  ([n limits]
-    {:pre [(c (posnum? n))
-           (c (coll? limits))]
-     :post [(c (coll? %))]}
-    (map 
-      (fn [i]
-        (map 
-          (fn [{from :min to :max}] (rand-from from to))
-          limits)) 
-      (range n))))
-
 (defn evaluate-max
   "Evaluates the fitness function for each chromosome to maximize the objective function"
   [fitness chromosomes]

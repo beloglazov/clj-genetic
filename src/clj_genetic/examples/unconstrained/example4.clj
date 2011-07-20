@@ -1,4 +1,4 @@
-(ns clj-genetic.examples.unconstrained.example3
+(ns clj-genetic.examples.unconstrained.example4
   (:require [clj-genetic.core :as core]        
             [clj-genetic.selection :as selection]
             [clj-genetic.recombination :as recombination]
@@ -8,31 +8,38 @@
   (:gen-class))
 
 (defn f 
-  "Bimodal, equal spread function
-   A local minimum is at x=0.75, the global minimum is at x=0.25
-   f(0.75)=-0.5, f(0.25)=-1.0"
-  [x]
-  (if (<= x 0.5)
-    (- (Math/pow Math/E (- (/ (Math/pow (- x 0.25) 2) 0.01))))
-    (- (* 0.5 (Math/pow Math/E (- (/ (Math/pow (- x 0.75) 2) 0.01)))))))
+  "Pole problem
+   Four minimum points. Global maximum at (0.8, 0.8)
+   f(0.8, 0.8)=201.5070655152517"
+  [x y]
+  (apply + (map (fn [a b c h]
+                  (/ (* c h) 
+                     (Math/pow (+ (Math/pow h 2) 
+                                  (Math/pow (- x a) 2) 
+                                  (Math/pow (- y b) 2)) 
+                               (/ 3 2))))
+                [0.4 0.3 0.7 0.8]
+                [0.3 0.7 0.2 0.8]
+                [1.0 1.0 1.0 1.125]
+                [0.1 0.1 0.1 0.075])))
 
 (def iterations 200)
 (def population-size 50)
 
 (defn -main [& args]
-  (let [initial-population (random-generators/generate-population population-size)] 
+  (let [initial-population (random-generators/generate-population-n-vars population-size 2)] 
     (do 
       (prn initial-population) 
       (let [output 
             (core/run
-              (partial core/evaluate-min f)
+              (partial core/evaluate-max f)
               selection/binary-tournament-without-replacement
               (partial recombination/crossover crossover/simulated-binary)
               #(>= %2 iterations)
               initial-population
               #(prn "step: " %1 "; results: " %2))
             step (:step output)
-            result (core/min-result (:results output))]
+            result (core/max-result (:results output))]
         (prn "Step: " step)
         (prn "Result: " result)
         (prn "Fitness: " (- (:fitness (meta result)))))))) 
