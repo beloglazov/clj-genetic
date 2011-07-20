@@ -8,7 +8,7 @@
   (:gen-class))
 
 (defn f 
-  "Bimodal, equal spread function
+  "Bimodal, equal spread function -> minimization
    A local minimum is at x=0.75, the global minimum is at x=0.25
    f(0.75)=-0.5, f(0.25)=-1.0"
   [x]
@@ -16,7 +16,7 @@
     (- (Math/pow Math/E (- (/ (Math/pow (- x 0.25) 2) 0.01))))
     (- (* 0.5 (Math/pow Math/E (- (/ (Math/pow (- x 0.75) 2) 0.01)))))))
 
-(def iterations 200)
+(def max-generations 200)
 (def population-size 50)
 
 (defn -main [& args]
@@ -28,11 +28,11 @@
               (partial core/evaluate-min f)
               selection/binary-tournament-without-replacement
               (partial recombination/crossover crossover/simulated-binary)
-              #(>= %2 iterations)
+              #(>= %2 max-generations)
               initial-population
-              #(prn "step: " %1 "; results: " %2))
-            step (:step output)
+              #(prn "Generation: " %1 "; Results: " %2))
+            generation (:generation output)
             result (core/min-result (:results output))]
-        (prn "Step: " step)
+        (prn "Generation: " generation)
         (prn "Result: " result)
-        (prn "Fitness: " (- (:fitness (meta result)))))))) 
+        (prn "Fitness: " (:fitness (meta result))))))) 

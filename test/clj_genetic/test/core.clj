@@ -10,14 +10,14 @@
 (fact
   (run evaluate selection recombination terminate? population) 
   => (just {:results anything
-            :step 0})
+            :generation 0})
   (provided
     (evaluate anything) => anything
     (terminate? anything 0) => true)
   
   (run evaluate selection recombination terminate? population) 
   => (just {:results anything
-            :step 1})
+            :generation 1})
   (provided
     (evaluate anything) => anything
     (selection anything) => []
@@ -46,15 +46,29 @@
   (provided (fitness anything) => 1))
 
 (fact 
-  (min-result 
-    [(with-meta [1] {:fitness 5 :feasible true :not-feasible false})
-     (with-meta [2] {:fitness 1 :feasible true :not-feasible false})
+  (max-result 
+    [(with-meta [1] {:fitness 1 :feasible true :not-feasible false})
+     (with-meta [2] {:fitness 5 :feasible true :not-feasible false})
      (with-meta [3] {:fitness 3 :feasible true :not-feasible false})])
-  => (just [2]))
+  => (just [2])
+  (meta (max-result 
+    [(with-meta [1] {:fitness 1 :feasible true :not-feasible false})
+     (with-meta [2] {:fitness 5 :feasible true :not-feasible false})
+     (with-meta [3] {:fitness 3 :feasible true :not-feasible false})]))
+  => {:fitness 5 :feasible true :not-feasible false})
 
 (fact 
-  (max-result 
-    [(with-meta [1] {:fitness 5 :feasible true :not-feasible false})
-     (with-meta [2] {:fitness 1 :feasible true :not-feasible false})
-     (with-meta [3] {:fitness 3 :feasible true :not-feasible false})])
-  => (just [1]))
+  (min-result 
+    [(with-meta [1] {:fitness -1 :feasible true :not-feasible false})
+     (with-meta [2] {:fitness -5 :feasible true :not-feasible false})
+     (with-meta [3] {:fitness -3 :feasible true :not-feasible false})])
+  => (just [1])
+  (meta 
+    (min-result 
+      [(with-meta [1] {:fitness -1 :feasible true :not-feasible false})
+       (with-meta [2] {:fitness -5 :feasible true :not-feasible false})
+       (with-meta [3] {:fitness -3 :feasible true :not-feasible false})]))
+  => {:fitness 1 :feasible true :not-feasible false})
+
+
+

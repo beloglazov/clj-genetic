@@ -34,10 +34,8 @@
 (defn min-result [results]
   {:pre [(c (coll? results))]
    :post [(c (coll? %))]}
-  (reduce #(if (< (:fitness (meta %1)) (:fitness (meta %2)))
-             %1
-             %2) 
-          results))
+  (let [result (max-result results)]
+    (vary-meta result assoc :fitness (- (:fitness (meta result))))))
 
 (defn run 
   
@@ -58,15 +56,15 @@
            (c (coll? initial-population))
            (c (fn? reporting))]
      :post [(c (map? %))]}
-    (loop [step 0
+    (loop [generation 0
            population initial-population]
       (let [results (evaluate population)] 
         (do 
-          (reporting results step) 
-          (if (terminate? results step)
+          (reporting results generation) 
+          (if (terminate? results generation)
             {:results results
-             :step step}
-            (recur (inc step)
+             :generation generation}
+            (recur (inc generation)
                    (recombination (selection results)))))))))
 
 

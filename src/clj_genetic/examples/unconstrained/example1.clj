@@ -8,12 +8,13 @@
   (:gen-class))
 
 (defn f 
-  "V function. Minimum at x=0.5, f(0.5)=0"
+  "V function -> minimization 
+   Minimum at x=0.5, f(0.5)=0"
   [x]
   (Math/abs (- x 0.5)))
 
 (def limits [{:min 0 :max 1}])
-(def iterations 200)
+(def max-generations 200)
 (def population-size 50)
 
 (defn -main [& args]
@@ -26,11 +27,11 @@
               selection/binary-tournament-without-replacement
               (partial recombination/crossover 
                        (partial crossover/simulated-binary-with-limits limits))
-              #(>= %2 iterations)
+              #(>= %2 max-generations)
               initial-population
-              #(prn "step: " %1 "; results: " %2))
-            step (:step output)
+              #(prn "Generation: " %1 "; Results: " %2))
+            generation (:generation output)
             result (core/min-result (:results output))]
-        (prn "Step: " step)
+        (prn "Generation: " generation)
         (prn "Result: " result)
-        (prn "Fitness: " (- (:fitness (meta result)))))))) 
+        (prn "Fitness: " (:fitness (meta result))))))) 

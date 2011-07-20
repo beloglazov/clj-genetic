@@ -8,8 +8,8 @@
   (:gen-class))
 
 (defn f 
-  "Pole problem
-   Four minimum points. Global maximum at (0.8, 0.8)
+  "Pole problem -> maximization
+   Four minimum points. The global maximum is at (0.8, 0.8)
    f(0.8, 0.8)=201.5070655152517"
   [x y]
   (apply + (map (fn [a b c h]
@@ -23,7 +23,7 @@
                 [1.0 1.0 1.0 1.125]
                 [0.1 0.1 0.1 0.075])))
 
-(def iterations 200)
+(def max-generations 200)
 (def population-size 50)
 
 (defn -main [& args]
@@ -35,11 +35,11 @@
               (partial core/evaluate-max f)
               selection/binary-tournament-without-replacement
               (partial recombination/crossover crossover/simulated-binary)
-              #(>= %2 iterations)
+              #(>= %2 max-generations)
               initial-population
-              #(prn "step: " %1 "; results: " %2))
-            step (:step output)
+              #(prn "Generation: " %1 "; Results: " %2))
+            generation (:generation output)
             result (core/max-result (:results output))]
-        (prn "Step: " step)
+        (prn "Generation: " generation)
         (prn "Result: " result)
-        (prn "Fitness: " (- (:fitness (meta result)))))))) 
+        (prn "Fitness: " (:fitness (meta result))))))) 
