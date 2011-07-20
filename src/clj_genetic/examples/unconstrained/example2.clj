@@ -9,7 +9,7 @@
   (:gen-class))
 
 (defn f 
-  "Minimum at x=0.5, f(0.5)=0, discontinuity at the minimum point"
+  "V-cliff function. Minimum at x=0.5, f(0.5)=0, discontinuity at the minimum point"
   [x]
   (if (< x 0.5)
     (- 0.6 x)
@@ -20,7 +20,7 @@
 (def population-size 50)
 
 (defn -main [& args]
-  (let [initial-population (core/generate-population limits population-size)] 
+  (let [initial-population (core/generate-population population-size limits)] 
     (do 
       (prn initial-population) 
       (let [output 

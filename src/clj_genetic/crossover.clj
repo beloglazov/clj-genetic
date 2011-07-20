@@ -80,7 +80,7 @@
     (if (< (rand) probability) 
       (let [new-genes (map (fn [gene1 gene2]
                              (if (< (rand) gene-probability)
-                               (simulated-binary-cross gene1 gene2 nu)
+                               (simulated-binary-cross nu gene1 gene2)
                                [gene1 gene2]))
                            chromosome1 chromosome2)]
         [(map first new-genes) (map second new-genes)])

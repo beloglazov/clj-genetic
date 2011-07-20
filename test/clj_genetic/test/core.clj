@@ -58,3 +58,9 @@
      (with-meta [2] {:fitness 1 :feasible true :not-feasible false})
      (with-meta [3] {:fitness 3 :feasible true :not-feasible false})])
   => (just [1]))
+
+(fact 
+  (generate-population 3) => (just [2] [2] [2])
+  (provided (rand) => 2)
+  (generate-population 3 [{:min 0 :max 3}]) => (just [2] [2] [2])
+  (provided (rand-from 0 3) => 2))
