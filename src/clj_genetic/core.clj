@@ -42,3 +42,10 @@
   {:pre [(c (posnum? n))]
    :post [(c (fn? %))]}
   #(>= %2 n))
+
+(defn estimate-population-size
+  "A simple heuristic suggested by (Deb 2000): vars * 10 "
+  [vars]
+  {:pre [(c (posnum? vars))]
+   :post [(c (posnum? %))]}
+  (* vars 10))

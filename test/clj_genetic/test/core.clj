@@ -39,3 +39,8 @@
   ((terminate-max-generations? 5) anything 6) => true?
   ((terminate-max-generations? 5) anything 9) => true?)
 
+(fact
+  (estimate-population-size 1) => 10
+  (estimate-population-size 2) => 20
+  (estimate-population-size 10) => 100)
+

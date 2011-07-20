@@ -70,7 +70,7 @@
            (c (not-negnum? t))
            (c (coll? genes))]
      :post [(c (coll? %))]}
-    (parameter-based-with-limits limits genes t t-max 100))
+    (parameter-based-with-limits limits 100 t-max t genes))
   
   ([limits nu t-max t genes]
     {:pre [(c (coll? limits))
