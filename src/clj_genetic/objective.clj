@@ -23,7 +23,7 @@
                       :not-feasible false}) 
        chromosomes))
 
-(defn max-result [results]
+(defn max-solution [results]
   {:pre [(c (coll? results))]
    :post [(c (coll? %))]}
   (reduce #(if (> (:fitness (meta %1)) (:fitness (meta %2)))
@@ -31,22 +31,35 @@
              %2) 
           results))
 
-(defn min-result [results]
+(defn min-solution [results]
   {:pre [(c (coll? results))]
    :post [(c (coll? %))]}
-  (let [result (max-result results)]
-    (vary-meta result assoc :fitness (- (:fitness (meta result))))))
+  (let [solution (max-solution results)]
+    (vary-meta solution assoc :fitness (- (:fitness (meta solution))))))
 
-(defn maximize [f]
-  {:pre [(c (fn? f))]
-   :post [(c (contains-keys? % :evaluate :result :objective))]}
-  {:evaluate (partial max-evaluate f)
-   :result max-result
-   :objective "Maximize"})
+(defn maximize 
+  
+  ([f]
+    {:pre [(c (fn? f))]
+     :post [(c (contains-keys? % :evaluate :solution :objective))]}
+    {:evaluate (partial max-evaluate f)
+     :solution max-solution
+     :objective "Maximize"})
+  
+  ([f constraints]
+    {:pre [(c (fn? f))
+           (c (coll? constraints))]
+     :post [(c (contains-keys? % :evaluate :constraints :solution :objective))]}
+    {:evaluate (partial max-evaluate f)
+     :constraints constraints
+     :solution max-solution
+     :objective "Maximize"}))
 
 (defn minimize [f]
   {:pre [(c (fn? f))]
-   :post [(c (contains-keys? % :evaluate :result :objective))]}
+   :post [(c (contains-keys? % :evaluate :solution :objective))]}
   {:evaluate (partial min-evaluate f)
-   :result min-result
+   :solution min-solution
    :objective "Minimize"})
+
+

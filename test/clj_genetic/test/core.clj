@@ -3,23 +3,23 @@
         clj-genetic.util
         midje.sweet))
 
-(unfinished evaluate result objective selection recombination terminate? fitness)
+(unfinished evaluate solution objective selection recombination terminate? fitness)
 
 (def population [1 2 3])
 
 (fact
-  (run {:evaluate evaluate :result result :objective "test"} 
-       selection recombination terminate? population) => (just {:result anything
+  (run {:evaluate evaluate :solution solution :objective "test"} 
+       selection recombination terminate? population) => (just {:solution anything
                                                                 :fitness anything
                                                                 :objective "test" 
                                                                 :generation 0})
   (provided
     (evaluate anything) => anything
     (terminate? anything 0) => true
-    (result anything) => anything)
+    (solution anything) => anything)
   
-  (run {:evaluate evaluate :result result :objective "test"} 
-       selection recombination terminate? population) => (just {:result anything
+  (run {:evaluate evaluate :solution solution :objective "test"} 
+       selection recombination terminate? population) => (just {:solution anything
                                                                 :fitness anything
                                                                 :objective "test"
                                                                 :generation 1})
@@ -29,7 +29,7 @@
     (recombination anything anything) => []
     (terminate? anything 0) => false
     (terminate? anything 1) => true
-    (result anything) => anything))
+    (solution anything) => anything))
 
 (fact 
   (terminate-max-generations? 5) => fn?

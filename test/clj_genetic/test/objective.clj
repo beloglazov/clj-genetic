@@ -7,12 +7,12 @@
 
 (fact
   (maximize #()) => (just {:evaluate fn?
-                           :result fn?
+                           :solution fn?
                            :objective "Maximize"}))
 
 (fact
   (minimize #()) => (just {:evaluate fn?
-                           :result fn?
+                           :solution fn?
                            :objective "Minimize"}))
 
 (fact
@@ -36,25 +36,25 @@
   (provided (fitness anything) => 1))
 
 (fact 
-  (max-result 
+  (max-solution 
     [(with-meta [1] {:fitness 1 :feasible true :not-feasible false})
      (with-meta [2] {:fitness 5 :feasible true :not-feasible false})
      (with-meta [3] {:fitness 3 :feasible true :not-feasible false})])
   => (just [2])
-  (meta (max-result 
+  (meta (max-solution 
     [(with-meta [1] {:fitness 1 :feasible true :not-feasible false})
      (with-meta [2] {:fitness 5 :feasible true :not-feasible false})
      (with-meta [3] {:fitness 3 :feasible true :not-feasible false})]))
   => {:fitness 5 :feasible true :not-feasible false})
 
 (fact 
-  (min-result 
+  (min-solution 
     [(with-meta [1] {:fitness -1 :feasible true :not-feasible false})
      (with-meta [2] {:fitness -5 :feasible true :not-feasible false})
      (with-meta [3] {:fitness -3 :feasible true :not-feasible false})])
   => (just [1])
   (meta 
-    (min-result 
+    (min-solution 
       [(with-meta [1] {:fitness -1 :feasible true :not-feasible false})
        (with-meta [2] {:fitness -5 :feasible true :not-feasible false})
        (with-meta [3] {:fitness -3 :feasible true :not-feasible false})]))

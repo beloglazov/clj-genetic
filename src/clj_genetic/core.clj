@@ -4,9 +4,9 @@
 (defn run 
   
   ([objective selection recombination terminate? initial-population]
-    {:pre [(c (contains-keys? objective :evaluate :result :objective))
+    {:pre [(c (contains-keys? objective :evaluate :solution :objective))
            (c (fn? (:evaluate objective)))
-           (c (fn? (:result objective)))
+           (c (fn? (:solution objective)))
            (c (fn? selection))
            (c (fn? recombination))
            (c (fn? terminate?))
@@ -15,9 +15,9 @@
     (run objective selection recombination terminate? initial-population (fn [x y])))
   
   ([objective selection recombination terminate? initial-population log]
-    {:pre [(c (contains-keys? objective :evaluate :result :objective))
+    {:pre [(c (contains-keys? objective :evaluate :solution :objective))
            (c (fn? (:evaluate objective)))
-           (c (fn? (:result objective)))           
+           (c (fn? (:solution objective)))           
            (c (fn? selection))
            (c (fn? recombination))
            (c (fn? terminate?))
@@ -30,9 +30,9 @@
         (do 
           (log results generation) 
           (if (terminate? results generation)
-            (let [result ((:result objective) results)]
-              {:result result
-               :fitness (:fitness (meta result))
+            (let [solution ((:solution objective) results)]
+              {:solution solution
+               :fitness (:fitness (meta solution))
                :objective (:objective objective)
                :generation generation})
             (recur (inc generation)
