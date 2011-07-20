@@ -38,4 +38,7 @@
             (recur (inc generation)
                    (recombination (selection results)))))))))
 
-
+(defn terminate-max-generations? [n]
+  {:pre [(c (posnum? n))]
+   :post [(c (fn? %))]}
+  #(>= %2 n))

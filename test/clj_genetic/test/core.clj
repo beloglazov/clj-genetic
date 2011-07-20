@@ -31,4 +31,11 @@
     (terminate? anything 1) => true
     (result anything) => anything))
 
+(fact 
+  (terminate-max-generations? 5) => fn?
+  ((terminate-max-generations? 5) anything 0) => false?
+  ((terminate-max-generations? 5) anything 3) => false?
+  ((terminate-max-generations? 5) anything 5) => true?
+  ((terminate-max-generations? 5) anything 6) => true?
+  ((terminate-max-generations? 5) anything 9) => true?)
 
