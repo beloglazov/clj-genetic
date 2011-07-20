@@ -14,18 +14,24 @@
   (Math/abs (- x 0.5)))
 
 (def limits [{:min 0 :max 1}])
-(def iterations 200)
+(def iterations 100)
 (def population-size 50)
 
 (defn -main [& args]
   (let [initial-population (core/generate-population limits population-size)] 
     (do 
       (prn initial-population) 
-      (prn (core/run
-             (partial core/evaluate-min f)
-             selection/binary-tournament-without-replacement
-             (partial recombination/crossover 
-                      (partial crossover/simulated-binary-with-limits limits))
-             #(>= %2 iterations)
-             initial-population
-             #(prn "step: " %1 "; results: " %2)))))) 
+      (let [output 
+            (core/run
+              (partial core/evaluate-min f)
+              selection/binary-tournament-without-replacement
+              (partial recombination/crossover 
+                       (partial crossover/simulated-binary-with-limits limits))
+              #(>= %2 iterations)
+              initial-population
+              #(prn "step: " %1 "; results: " %2))
+            step (:step output)
+            result (min-result (:results output))]
+        (prn "Step: " step)
+        (prn "Result: " result)
+        (prn "Fitness: " (- (:fitness (meta result)))))))) 
