@@ -14,7 +14,7 @@
      :post [(c (map? %))]}
     (run objective selection recombination terminate? initial-population (fn [x y])))
   
-  ([objective selection recombination terminate? initial-population reporting]
+  ([objective selection recombination terminate? initial-population log]
     {:pre [(c (contains-keys? objective :evaluate :result :objective))
            (c (fn? (:evaluate objective)))
            (c (fn? (:result objective)))           
@@ -22,13 +22,13 @@
            (c (fn? recombination))
            (c (fn? terminate?))
            (c (coll? initial-population))
-           (c (fn? reporting))]
+           (c (fn? log))]
      :post [(c (map? %))]}
     (loop [generation 0
            population initial-population]
       (let [results ((:evaluate objective) population)] 
         (do 
-          (reporting results generation) 
+          (log results generation) 
           (if (terminate? results generation)
             (let [result ((:result objective) results)]
               {:result result
@@ -36,7 +36,7 @@
                :objective (:objective objective)
                :generation generation})
             (recur (inc generation)
-                   (recombination (selection results)))))))))
+                   (recombination generation (selection results)))))))))
 
 (defn terminate-max-generations? [n]
   {:pre [(c (posnum? n))]

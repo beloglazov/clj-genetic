@@ -26,7 +26,7 @@
   (provided
     (evaluate anything) => anything
     (selection anything) => []
-    (recombination anything) => []
+    (recombination anything anything) => []
     (terminate? anything 0) => false
     (terminate? anything 1) => true
     (result anything) => anything))
