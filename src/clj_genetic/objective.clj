@@ -23,6 +23,37 @@
                       :not-feasible false}) 
        chromosomes))
 
+(defn max-evaluate-with-constraints
+  "Evaluates the fitness function for each chromosome to maximize the objective function
+   taking into account for the constraints"
+  [fitness chromosomes]
+  {:pre [(c (fn? fitness))
+         (c (coll? chromosomes))]
+   :post [(c (every-contains-meta? % :fitness :feasible :not-feasible))]}
+  (map #(with-meta % {:fitness (apply fitness %)
+                      :feasible true
+                      :not-feasible false}) 
+       chromosomes))
+
+(defn min-evaluate-with-constraints
+  "Evaluates the fitness function for each chromosome to minimize the objective function
+   taking into account for the constraints"
+  [fitness chromosomes]
+  {:pre [(c (fn? fitness))
+         (c (coll? chromosomes))]
+   :post [(c (every-contains-meta? % :fitness :feasible :not-feasible))]}
+  (map #(with-meta % {:fitness (- (apply fitness %))
+                      :feasible true
+                      :not-feasible false}) 
+       chromosomes))
+
+(defn constraint-violation [genes constraints]
+  "Returns a list of constraint violation values, or false"
+  {:pre [(c (coll? genes))
+         (c (coll? constraints))]
+   :post [(c (or (false? %) (coll? %)))]}
+  )
+
 (defn max-solution [results]
   {:pre [(c (coll? results))]
    :post [(c (coll? %))]}
