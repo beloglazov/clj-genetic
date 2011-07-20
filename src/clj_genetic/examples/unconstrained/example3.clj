@@ -1,5 +1,6 @@
 (ns clj-genetic.examples.unconstrained.example3
   (:require [clj-genetic.core :as core]        
+            [clj-genetic.objective :as objective]
             [clj-genetic.selection :as selection]
             [clj-genetic.recombination :as recombination]
             [clj-genetic.mutation :as mutation]
@@ -8,7 +9,7 @@
   (:gen-class))
 
 (defn f 
-  "Bimodal, equal spread function -> minimization
+  "Bimodal, equal spread function -> minimize
    A local minimum is at x=0.75, the global minimum is at x=0.25
    f(0.75)=-0.5, f(0.25)=-1.0"
   [x]
@@ -20,19 +21,10 @@
 (def population-size 50)
 
 (defn -main [& args]
-  (let [initial-population (random-generators/generate-population population-size)] 
-    (do 
-      (prn initial-population) 
-      (let [output 
-            (core/run
-              (partial core/evaluate-min f)
-              selection/binary-tournament-without-replacement
-              (partial recombination/crossover crossover/simulated-binary)
-              #(>= %2 max-generations)
-              initial-population
-              #(prn "Generation: " %1 "; Results: " %2))
-            generation (:generation output)
-            result (core/min-result (:results output))]
-        (prn "Generation: " generation)
-        (prn "Result: " result)
-        (prn "Fitness: " (:fitness (meta result))))))) 
+  (prn (core/run
+         (objective/minimize f)
+         selection/binary-tournament-without-replacement
+         (partial recombination/crossover crossover/simulated-binary)
+         #(>= %2 max-generations)
+         (random-generators/generate-population population-size)
+         #(prn "Generation: " %1 "; Results: " %2))))

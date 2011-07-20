@@ -1,5 +1,6 @@
 (ns clj-genetic.examples.unconstrained.example5
   (:require [clj-genetic.core :as core]        
+            [clj-genetic.objective :as objective]
             [clj-genetic.selection :as selection]
             [clj-genetic.recombination :as recombination]
             [clj-genetic.mutation :as mutation]
@@ -8,7 +9,7 @@
   (:gen-class))
 
 (defn f 
-  "A two-variable blocked function -> maximization
+  "A two-variable blocked function -> maximize
    The global maximum is at (0.4, 0.45)
    f(0.4, 0.45)=4.853068904778351"
   [x y]
@@ -27,19 +28,10 @@
 (def population-size 50)
 
 (defn -main [& args]
-  (let [initial-population (random-generators/generate-population-n-vars population-size 2)] 
-    (do 
-      (prn initial-population) 
-      (let [output 
-            (core/run
-              (partial core/evaluate-max f)
-              selection/binary-tournament-without-replacement
-              (partial recombination/crossover crossover/simulated-binary)
-              #(>= %2 max-generations)
-              initial-population
-              #(prn "Generation: " %1 "; Results: " %2))
-            generation (:generation output)
-            result (core/max-result (:results output))]
-        (prn "Generation: " generation)
-        (prn "Result: " result)
-        (prn "Fitness: " (:fitness (meta result))))))) 
+  (prn (core/run
+         (objective/maximize f)
+         selection/binary-tournament-without-replacement
+         (partial recombination/crossover crossover/simulated-binary)
+         #(>= %2 max-generations)
+         (random-generators/generate-population-n-vars population-size 2)
+         #(prn "Generation: " %1 "; Results: " %2))))

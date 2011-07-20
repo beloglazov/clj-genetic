@@ -1,5 +1,6 @@
 (ns clj-genetic.examples.unconstrained.example2
   (:require [clj-genetic.core :as core]        
+            [clj-genetic.objective :as objective]
             [clj-genetic.selection :as selection]
             [clj-genetic.recombination :as recombination]
             [clj-genetic.mutation :as mutation]
@@ -8,7 +9,7 @@
   (:gen-class))
 
 (defn f 
-  "V-cliff function -> minimization
+  "V-cliff function -> minimize
    Minimum at x=0.5, f(0.5)=0, discontinuity at the minimum point"
   [x]
   (if (< x 0.5)
@@ -20,20 +21,11 @@
 (def population-size 50)
 
 (defn -main [& args]
-  (let [initial-population (random-generators/generate-population population-size limits)] 
-    (do 
-      (prn initial-population) 
-      (let [output 
-            (core/run
-              (partial core/evaluate-min f)
-              selection/binary-tournament-without-replacement
-              (partial recombination/crossover 
-                       (partial crossover/simulated-binary-with-limits limits))
-              #(>= %2 max-generations)
-              initial-population
-              #(prn "Generation: " %1 "; Results: " %2))
-            generation (:generation output)
-            result (core/min-result (:results output))]
-        (prn "Generation: " generation)
-        (prn "Result: " result)
-        (prn "Fitness: " (:fitness (meta result))))))) 
+  (prn (core/run
+         (objective/minimize f)
+         selection/binary-tournament-without-replacement
+         (partial recombination/crossover 
+                  (partial crossover/simulated-binary-with-limits limits))
+         #(>= %2 max-generations)
+         (random-generators/generate-population population-size limits)
+         #(prn "Generation: " %1 "; Results: " %2))))
