@@ -64,23 +64,28 @@
                    :relation >=}
                   {:fn (fn [x y] (- x y))
                    :relation <}])
-(fact
-  (constraint-violation constraints [2 3]) => false?
-  (constraint-violation constraints [0 0]) => (just 0 0)
-  (constraint-violation constraints [-1 3]) => false?
-  (constraint-violation constraints [3 3]) => (just 0 0)
-  (constraint-violation constraints [3 2]) => (just 0 1)
-  (constraint-violation constraints [3 -1.5]) => (just 0 4.5)
-  (constraint-violation constraints [-2 -1]) => (just 3 0)
-  (constraint-violation constraints [-2 -3]) => (just 5 1))
+
+(tabular 
+  (fact
+    (constraint-violation constraints ?genes) => ?expected)
+  ?genes    ?expected
+  [2 3]     false?
+  [0 0]     (just 0 0)
+  [-1 3]    false? 
+  [3 3]     (just 0 0)
+  [3 2]     (just 0 1)
+  [3 -1.5]  (just 0 4.5)    
+  [-2 -1]   (just 3 0)  
+  [-2 -3]   (just 5 1))
 
 (tabular 
   (fact 
     (against-background (f anything anything) => 10
                         (max-worst-fitness anything) => 10)
-    (meta (first 
-            (max-evaluate-with-constraints constraints f ?genes))) => ?expected)
-  ?genes     ?expected
+    (meta 
+      (first 
+        (max-evaluate-with-constraints constraints f ?chromosomes))) => ?expected)
+  ?chromosomes     ?expected
   [[2 3]]    {:fitness 10  :feasible true  :not-feasible false}
   [[0 0]]    {:fitness 10  :feasible false :not-feasible true}
   [[-1 3]]   {:fitness 10  :feasible true  :not-feasible false} 
