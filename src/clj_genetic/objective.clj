@@ -47,12 +47,20 @@
                       :not-feasible false}) 
        chromosomes))
 
-(defn constraint-violation [genes constraints]
-  "Returns a list of constraint violation values, or false"
-  {:pre [(c (coll? genes))
-         (c (coll? constraints))]
+(defn constraint-violation
+  "Returns a list of absolute constraint violation values, or false"  
+  [constraints genes]
+  {:pre [(c (coll? constraints))
+         (c (coll? genes))]
    :post [(c (or (false? %) (coll? %)))]}
-  )
+  (let [results (map #(let [result (apply (:fn %) genes)]
+                        (if ((:relation %) result 0)
+                          false
+                          (Math/abs result)))
+                     constraints)]
+    (if (every? false? results)
+      false
+      (map #(if (false? %) 0 %) results))))
 
 (defn max-solution [results]
   {:pre [(c (coll? results))]

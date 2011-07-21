@@ -60,3 +60,58 @@
        (with-meta [3] {:fitness -3 :feasible true :not-feasible false})]))
   => {:fitness 1 :feasible true :not-feasible false})
 
+(def constraints [{:fn (fn [x y] (+ x y)) 
+                   :relation >=}
+                  {:fn (fn [x y] (- x y))
+                   :relation <}])
+(fact
+  (constraint-violation constraints [2 3]) => false?
+  (constraint-violation constraints [0 0]) => (just 0 0)
+  (constraint-violation constraints [-1 3]) => false?
+  (constraint-violation constraints [3 3]) => (just 0 0)
+  (constraint-violation constraints [3 2]) => (just 0 1)
+  (constraint-violation constraints [3 -1.5]) => (just 0 4.5)
+  (constraint-violation constraints [-2 -1]) => (just 3 0)
+  (constraint-violation constraints [-2 -3]) => (just 5 1))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
