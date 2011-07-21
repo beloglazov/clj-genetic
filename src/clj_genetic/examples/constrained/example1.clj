@@ -38,7 +38,7 @@
 (def limits [{:min 0 :max 6}
              {:min 0 :max 6}])
 (def max-generations 50)
-(def population-size 50)
+(def population-size (estimate-population-size 2))
 
 (defn -main [& args]
   (prn (run
