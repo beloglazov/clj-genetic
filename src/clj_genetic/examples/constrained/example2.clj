@@ -1,4 +1,4 @@
-(ns clj-genetic.examples.constrained.example1
+(ns clj-genetic.examples.constrained.example2
   (:use clj-genetic.core)
   (:require [clj-genetic.objective :as objective]
             [clj-genetic.selection :as selection]
@@ -12,6 +12,7 @@
 ; 2 constraints
 ; Selection: binary tournament without replacement
 ; Crossover: simulated binary
+; Mutation: parameter-based
 ; From the paper: K. Deb, An efficient constraint handling method for genetic algorithms
 
 (defn f 
@@ -43,8 +44,9 @@
   (prn (run
          (objective/minimize f constraints)
          selection/binary-tournament-without-replacement
-         (partial recombination/crossover 
-                  (partial crossover/simulated-binary-with-limits limits))
+         (partial recombination/crossover-mutation 
+                  (partial crossover/simulated-binary-with-limits limits)
+                  (partial mutation/parameter-based-with-limits limits max-generations))
          (terminate-max-generations? max-generations)
          (random-generators/generate-population population-size limits)
          #(prn "Generation: " %2 "; Results: " (map (fn [x] [x (meta x)]) %1)))))
