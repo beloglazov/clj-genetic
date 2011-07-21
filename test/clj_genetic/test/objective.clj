@@ -13,7 +13,6 @@
                            :solution fn?
                            :objective "Maximize"})
   (maximize #() constraints) => (just {:evaluate fn?
-                                       :constraints constraints
                                        :solution fn?
                                        :objective "Maximize"}))
 
@@ -22,7 +21,6 @@
                            :solution fn?
                            :objective "Minimize"})
   (minimize #() constraints) => (just {:evaluate fn?
-                                       :constraints constraints
                                        :solution fn?
                                        :objective "Minimize"}))
 

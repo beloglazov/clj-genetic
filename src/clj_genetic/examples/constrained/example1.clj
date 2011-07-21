@@ -48,4 +48,4 @@
                   (partial crossover/simulated-binary-with-limits limits))
          (terminate-max-generations? max-generations)
          (random-generators/generate-population population-size limits)
-         #(prn "Generation: " %2 "; Results: " %1))))
+         #(prn "Generation: " %2 "; Results: " (map (fn [x] [x (meta x)]) %1)))))

@@ -117,8 +117,7 @@
     {:pre [(c (fn? f))
            (c (map? constraints))]
      :post [(c (map? %))]}
-    {:evaluate (partial max-evaluate f)
-     :constraints constraints
+    {:evaluate (partial max-evaluate-with-constraints constraints f)
      :solution max-solution
      :objective "Maximize"}))
 
@@ -135,8 +134,7 @@
     {:pre [(c (fn? f))
            (c (map? constraints))]
      :post [(c (map? %))]}
-    {:evaluate (partial min-evaluate f)
-     :constraints constraints
+    {:evaluate (partial min-evaluate-with-constraints constraints f)
      :solution min-solution
      :objective "Minimize"}))
 
