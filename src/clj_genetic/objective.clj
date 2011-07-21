@@ -26,11 +26,11 @@
 (defn constraint-violation
   "Returns a list of absolute constraint violation values, or false"  
   [constraints genes]
-  {:pre [(c (coll? constraints))
+  {:pre [(c (map? constraints))
          (c (coll? genes))]
    :post [(c (or (false? %) (coll? %)))]}
-  (let [results (map #(let [result (apply (:fn %) genes)]
-                        (if ((:relation %) result 0)
+  (let [results (map #(let [result (apply (key %) genes)]
+                        (if ((val %) result 0)
                           false
                           (Math/abs result)))
                      constraints)]
@@ -48,7 +48,7 @@
   "Evaluates the fitness function for each chromosome to maximize the objective function
    taking into account for the constraints"
   [constraints fitness chromosomes]
-  {:pre [(c (coll? constraints))
+  {:pre [(c (map? constraints))
          (c (fn? fitness))
          (c (coll? chromosomes))]
    :post [(c (coll? %))]}
@@ -71,7 +71,7 @@
   "Evaluates the fitness function for each chromosome to maximize the objective function
    taking into account for the constraints"
   [constraints fitness chromosomes]
-  {:pre [(c (coll? constraints))
+  {:pre [(c (map? constraints))
          (c (fn? fitness))
          (c (coll? chromosomes))]
    :post [(c (coll? %))]}
@@ -115,7 +115,7 @@
   
   ([f constraints]
     {:pre [(c (fn? f))
-           (c (every-contains-keys? constraints :fn :relation))]
+           (c (map? constraints))]
      :post [(c (map? %))]}
     {:evaluate (partial max-evaluate f)
      :constraints constraints
@@ -133,7 +133,7 @@
   
   ([f constraints]
     {:pre [(c (fn? f))
-           (c (every-contains-keys? constraints :fn :relation))]
+           (c (map? constraints))]
      :post [(c (map? %))]}
     {:evaluate (partial min-evaluate f)
      :constraints constraints

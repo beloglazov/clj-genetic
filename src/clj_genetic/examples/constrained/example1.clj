@@ -33,8 +33,8 @@
      (Math/pow (- x2 2.5) 2)
      -4.84))
 
-(def constraints [{:fn g1 :relation >=}
-                  {:fn g2 :relation >=}])
+(def constraints {g1 >=
+                  g2 >=})
 (def limits [{:min 0 :max 6}
              {:min 0 :max 6}])
 (def max-generations 50)
