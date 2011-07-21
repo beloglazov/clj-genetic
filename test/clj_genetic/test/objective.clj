@@ -5,15 +5,28 @@
 
 (unfinished fitness f)
 
+(def constraints [{:fn (fn [x y] (+ x y)) 
+                   :relation >=}
+                  {:fn (fn [x y] (- x y))
+                   :relation <}])
+
 (fact
   (maximize #()) => (just {:evaluate fn?
                            :solution fn?
-                           :objective "Maximize"}))
+                           :objective "Maximize"})
+  (maximize #() constraints) => (just {:evaluate fn?
+                                       :constraints constraints
+                                       :solution fn?
+                                       :objective "Maximize"}))
 
 (fact
   (minimize #()) => (just {:evaluate fn?
                            :solution fn?
-                           :objective "Minimize"}))
+                           :objective "Minimize"})
+  (minimize #() constraints) => (just {:evaluate fn?
+                                       :constraints constraints
+                                       :solution fn?
+                                       :objective "Minimize"}))
 
 (fact
   (max-evaluate fitness [[.a.] [.b.] [.c.]]) 
@@ -59,11 +72,6 @@
        (with-meta [2] {:fitness -5 :feasible true :not-feasible false})
        (with-meta [3] {:fitness -3 :feasible true :not-feasible false})]))
   => {:fitness 1 :feasible true :not-feasible false})
-
-(def constraints [{:fn (fn [x y] (+ x y)) 
-                   :relation >=}
-                  {:fn (fn [x y] (- x y))
-                   :relation <}])
 
 (tabular 
   (fact

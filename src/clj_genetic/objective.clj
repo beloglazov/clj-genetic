@@ -122,11 +122,22 @@
      :solution max-solution
      :objective "Maximize"}))
 
-(defn minimize [f]
-  {:pre [(c (fn? f))]
-   :post [(c (map? %))]}
-  {:evaluate (partial min-evaluate f)
-   :solution min-solution
-   :objective "Minimize"})
+(defn minimize 
+  
+  ([f]
+    {:pre [(c (fn? f))]
+     :post [(c (map? %))]}
+    {:evaluate (partial min-evaluate f)
+     :solution min-solution
+     :objective "Minimize"})
+  
+  ([f constraints]
+    {:pre [(c (fn? f))
+           (c (coll? constraints))]
+     :post [(c (map? %))]}
+    {:evaluate (partial min-evaluate f)
+     :constraints constraints
+     :solution min-solution
+     :objective "Minimize"}))
 
 
