@@ -33,8 +33,8 @@
      (Math/pow (- x2 2.5) 2)
      -4.84))
 
-(def constraints [{:fn g1 :relation =>}
-                  {:fn g2 :relation =>}])
+(def constraints [{:fn g1 :relation >=}
+                  {:fn g2 :relation >=}])
 (def limits [{:min 0 :max 6}
              {:min 0 :max 6}])
 (def max-generations 50)
@@ -42,7 +42,7 @@
 
 (defn -main [& args]
   (prn (run
-         (objective/minimize f contraints)
+         (objective/minimize f constraints)
          selection/binary-tournament-without-replacement
          (partial recombination/crossover 
                   (partial crossover/simulated-binary-with-limits limits))

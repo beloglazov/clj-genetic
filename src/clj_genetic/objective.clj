@@ -115,7 +115,7 @@
   
   ([f constraints]
     {:pre [(c (fn? f))
-           (c (coll? constraints))]
+           (c (every-contains-keys? constraints :fn :relation))]
      :post [(c (map? %))]}
     {:evaluate (partial max-evaluate f)
      :constraints constraints
@@ -133,7 +133,7 @@
   
   ([f constraints]
     {:pre [(c (fn? f))
-           (c (coll? constraints))]
+           (c (every-contains-keys? constraints :fn :relation))]
      :post [(c (map? %))]}
     {:evaluate (partial min-evaluate f)
      :constraints constraints
