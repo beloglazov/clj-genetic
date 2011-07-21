@@ -79,9 +79,22 @@
   [-2 -3]   (just 5 1))
 
 (tabular 
+  (fact
+    (worst-fitness ?chromosomes) => ?expected)
+  ?chromosomes                    ?expected
+  
+  [(with-meta [1] {:fitness 3})
+   (with-meta [2] {:fitness -1})
+   (with-meta [3] {:fitness 4})]  -1
+  
+  [(with-meta [1] {:fitness 3})
+   (with-meta [2] {:fitness 6})
+   (with-meta [3] {:fitness 4})]  3)
+
+(tabular 
   (fact 
     (against-background (f anything anything) => 10
-                        (max-worst-fitness anything) => 10)
+                        (worst-fitness anything) => 10)
     (meta 
       (first 
         (max-evaluate-with-constraints constraints f ?chromosomes))) => ?expected)
@@ -98,7 +111,7 @@
 (tabular 
   (fact 
     (against-background (f anything anything) => 10
-                        (min-worst-fitness anything) => -10)
+                        (worst-fitness anything) => -10)
     (meta 
       (first 
         (min-evaluate-with-constraints constraints f ?chromosomes))) => ?expected)

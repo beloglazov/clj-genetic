@@ -38,15 +38,11 @@
       false
       (map #(if (false? %) 0 %) results))))
 
-(defn max-worst-fitness [chromosomes]
+(defn worst-fitness [chromosomes]
   {:pre [(c (coll? chromosomes))]
    :post [(c (number? %))]}
-  ())
-
-(defn min-worst-fitness [chromosomes]
-  {:pre [(c (coll? chromosomes))]
-   :post [(c (number? %))]}
-  ())
+  (reduce #(min %1 %2) 
+          (map #(:fitness (meta %)) chromosomes)))
 
 (defn max-evaluate-with-constraints
   "Evaluates the fitness function for each chromosome to maximize the objective function
@@ -65,9 +61,9 @@
                                          :feasible true
                                          :not-feasible false})) 
                                    chromosomes)
-        worst-fitness (max-worst-fitness evaluated-chromosomes)]
+        worst-fitness-value (worst-fitness evaluated-chromosomes)]
     (map #(if (:not-feasible (meta %))
-            (vary-meta % assoc :fitness (- worst-fitness (:fitness (meta %))))
+            (vary-meta % assoc :fitness (- worst-fitness-value (:fitness (meta %))))
             %) 
          evaluated-chromosomes)))
 
@@ -88,9 +84,9 @@
                                          :feasible true
                                          :not-feasible false})) 
                                    chromosomes)
-        worst-fitness (min-worst-fitness evaluated-chromosomes)]
+        worst-fitness-value (worst-fitness evaluated-chromosomes)]
     (map #(if (:not-feasible (meta %))
-            (vary-meta % assoc :fitness (- worst-fitness (:fitness (meta %))))
+            (vary-meta % assoc :fitness (- worst-fitness-value (:fitness (meta %))))
             %) 
          evaluated-chromosomes)))
 
