@@ -32,6 +32,7 @@
           (if (terminate? results generation)
             (let [solution ((:solution objective) results)]
               {:solution solution
+               :feasible (:feasible (meta solution))
                :fitness (:fitness (meta solution))
                :objective (:objective objective)
                :generation generation})
@@ -44,7 +45,7 @@
   #(>= %2 n))
 
 (defn estimate-population-size
-  "A simple heuristic suggested by (Deb 2000): vars * 10 "
+  "A simple heuristic suggested by (K. Deb, 2000): vars * 10 "
   [vars]
   {:pre [(c (posnum? vars))]
    :post [(c (posnum? %))]}

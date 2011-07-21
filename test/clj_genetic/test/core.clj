@@ -10,6 +10,7 @@
 (fact
   (run {:evaluate evaluate :solution solution :objective "test"} 
        selection recombination terminate? population) => (just {:solution anything
+                                                                :feasible anything
                                                                 :fitness anything
                                                                 :objective "test" 
                                                                 :generation 0})
@@ -20,6 +21,7 @@
   
   (run {:evaluate evaluate :solution solution :objective "test"} 
        selection recombination terminate? population) => (just {:solution anything
+                                                                :feasible anything
                                                                 :fitness anything
                                                                 :objective "test"
                                                                 :generation 1})
