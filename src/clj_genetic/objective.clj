@@ -6,7 +6,7 @@
   [fitness chromosomes]
   {:pre [(c (fn? fitness))
          (c (coll? chromosomes))]
-   :post [(c (every-contains-meta? % :fitness :feasible :not-feasible))]}
+   :post [(c (coll? %))]}
   (map #(with-meta % {:fitness (apply fitness %)
                       :feasible true
                       :not-feasible false}) 
@@ -17,7 +17,7 @@
   [fitness chromosomes]
   {:pre [(c (fn? fitness))
          (c (coll? chromosomes))]
-   :post [(c (every-contains-meta? % :fitness :feasible :not-feasible))]}
+   :post [(c (coll? %))]}
   (map #(with-meta % {:fitness (- (apply fitness %))
                       :feasible true
                       :not-feasible false}) 
@@ -29,7 +29,7 @@
   [fitness chromosomes]
   {:pre [(c (fn? fitness))
          (c (coll? chromosomes))]
-   :post [(c (every-contains-meta? % :fitness :feasible :not-feasible))]}
+   :post [(c (coll? %))]}
   (map #(with-meta % {:fitness (apply fitness %)
                       :feasible true
                       :not-feasible false}) 
@@ -41,7 +41,7 @@
   [fitness chromosomes]
   {:pre [(c (fn? fitness))
          (c (coll? chromosomes))]
-   :post [(c (every-contains-meta? % :fitness :feasible :not-feasible))]}
+   :post [(c (coll? %))]}
   (map #(with-meta % {:fitness (- (apply fitness %))
                       :feasible true
                       :not-feasible false}) 
@@ -80,7 +80,7 @@
   
   ([f]
     {:pre [(c (fn? f))]
-     :post [(c (contains-keys? % :evaluate :solution :objective))]}
+     :post [(c (map? %))]}
     {:evaluate (partial max-evaluate f)
      :solution max-solution
      :objective "Maximize"})
@@ -88,7 +88,7 @@
   ([f constraints]
     {:pre [(c (fn? f))
            (c (coll? constraints))]
-     :post [(c (contains-keys? % :evaluate :constraints :solution :objective))]}
+     :post [(c (map? %))]}
     {:evaluate (partial max-evaluate f)
      :constraints constraints
      :solution max-solution
@@ -96,7 +96,7 @@
 
 (defn minimize [f]
   {:pre [(c (fn? f))]
-   :post [(c (contains-keys? % :evaluate :solution :objective))]}
+   :post [(c (map? %))]}
   {:evaluate (partial min-evaluate f)
    :solution min-solution
    :objective "Minimize"})
