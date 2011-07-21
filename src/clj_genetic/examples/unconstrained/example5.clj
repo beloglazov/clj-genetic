@@ -8,6 +8,10 @@
             [clj-genetic.random-generators :as random-generators])
   (:gen-class))
 
+; 2 parameters
+; Selection: binary tournament without replacement
+; Crossover: simulated binary
+
 (defn f 
   "A two-variable blocked function -> maximize
    The global maximum is at (0.4, 0.45)

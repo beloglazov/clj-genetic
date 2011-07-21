@@ -8,8 +8,12 @@
             [clj-genetic.random-generators :as random-generators])
   (:gen-class))
 
-; This example uses both crossover and mutation
-; From the paper: An effcient constraint handling method for genetic algorithms
+; 2 parameters with limits
+; 2 constraints
+; Selection: binary tournament without replacement
+; Crossover: simulated binary
+; Mutation: parameter-based
+; From the paper: K. Deb, An efficient constraint handling method for genetic algorithms
 
 (defn f 
   "Test Problem 1 -> minimize
@@ -20,17 +24,17 @@
      (Math/pow (+ x1 (* x2 x2) -7) 2)))
 
 (defn g1 [x1 x2]
-  (<= 0
-      (+ 4.84
-         (- (Math/pow (- x1 0.05) 2))
-         (- (Math/pow (- x2 2.5) 2)))))
+  (+ 4.84
+     (- (Math/pow (- x1 0.05) 2))
+     (- (Math/pow (- x2 2.5) 2))))
 
 (defn g2 [x1 x2]
-  (<= 0
-      (+ (Math/pow x1 2)
-         (Math/pow (- x2 2.5) 2)
-         -4.84)))
+  (+ (Math/pow x1 2)
+     (Math/pow (- x2 2.5) 2)
+     -4.84))
 
+(def constraints [{:fn g1 :relation =>}
+                  {:fn g2 :relation =>}])
 (def limits [{:min 0 :max 6}
              {:min 0 :max 6}])
 (def max-generations 50)
@@ -38,7 +42,7 @@
 
 (defn -main [& args]
   (prn (run
-         (objective/minimize f)
+         (objective/minimize f contraints)
          selection/binary-tournament-without-replacement
          (partial recombination/crossover 
                   (partial crossover/simulated-binary-with-limits limits))

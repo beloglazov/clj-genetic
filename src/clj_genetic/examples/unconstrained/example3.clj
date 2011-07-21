@@ -8,6 +8,10 @@
             [clj-genetic.random-generators :as random-generators])
   (:gen-class))
 
+; 1 parameter
+; Selection: binary tournament without replacement
+; Crossover: simulated binary
+
 (defn f 
   "Bimodal, equal spread function -> minimize
    A local minimum is at x=0.75, the global minimum is at x=0.25

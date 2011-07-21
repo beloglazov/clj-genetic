@@ -8,6 +8,10 @@
             [clj-genetic.random-generators :as random-generators])
   (:gen-class))
 
+; 2 parameters
+; Selection: binary tournament without replacement
+; Crossover: simulated binary
+
 (defn f 
   "Pole problem -> maximize
    Four minimum points. The global maximum is at (0.8, 0.8)

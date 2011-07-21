@@ -8,8 +8,11 @@
             [clj-genetic.random-generators :as random-generators])
   (:gen-class))
 
-; This example uses both crossover and mutation
-; From the paper: An effcient constraint handling method for genetic algorithms
+; 2 parameters with limits
+; Selection: binary tournament without replacement
+; Crossover: simulated binary
+; Mutation: parameter-based
+; From the paper: K. Deb, An efficient constraint handling method for genetic algorithms
 
 (defn f 
   "Test Problem 1 -> minimize

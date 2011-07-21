@@ -8,6 +8,10 @@
             [clj-genetic.random-generators :as random-generators])
   (:gen-class))
 
+; 1 parameter with limits
+; Selection: binary tournament without replacement
+; Crossover: simulated binary
+
 (defn f 
   "V-cliff function -> minimize
    Minimum at x=0.5, f(0.5)=0, discontinuity at the minimum point"

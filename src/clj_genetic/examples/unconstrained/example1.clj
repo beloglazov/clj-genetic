@@ -8,6 +8,10 @@
             [clj-genetic.random-generators :as random-generators])
   (:gen-class))
 
+; 1 parameter with limits
+; Selection: binary tournament without replacement
+; Crossover: simulated binary
+
 (defn f 
   "V function -> minimize 
    Minimum at x=0.5, f(0.5)=0"

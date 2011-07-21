@@ -8,7 +8,10 @@
             [clj-genetic.random-generators :as random-generators])
   (:gen-class))
 
-; This example uses both crossover and mutation
+; 2 parameters
+; Selection: binary tournament without replacement
+; Crossover: simulated binary
+; Mutation: parameter-based
 
 (defn f 
   "A two-variable blocked function -> maximize
