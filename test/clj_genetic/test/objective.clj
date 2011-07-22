@@ -5,8 +5,8 @@
 
 (unfinished fitness f)
 
-(def constraints {(fn [x y] (+ x y)) >=
-                  (fn [x y] (- x y)) <})
+(def constraints [[(fn [x y] (+ x y)) >= 0]
+                  [(fn [x y] (- x y)) < 0]])
 
 (fact
   (maximize #()) => (just {:evaluate fn?
