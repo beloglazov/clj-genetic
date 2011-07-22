@@ -1,6 +1,16 @@
 (ns clj-genetic.selection
   (:use clj-genetic.util))
 
+(defn feasible? [chromosome]
+  {:pre [(c (coll? chromosome))]
+   :post [(c (boolean? %))]}
+  (:feasible (meta chromosome)))
+
+(defn not-feasible? [chromosome]
+  {:pre [(c (coll? chromosome))]
+   :post [(c (boolean? %))]}
+  (:not-feasible (meta chromosome)))
+
 (defn binary-tournament-select
   "Tournament selection with replacement:
    1. Any feasible solution is preferred to any infeasible solution.
@@ -12,16 +22,14 @@
          (c (coll? b))
          (c (contains-meta? b :fitness :feasible :not-feasible))]
    :post [(c (coll? %))]}
-  (let [a-meta (meta a)
-        b-meta (meta b)] 
-    (cond 
-      (and (:feasible a-meta)
-           (:not-feasible b-meta)) a
-      (and (:not-feasible a-meta)
-           (:feasible b-meta)) b
-      (> (:fitness a-meta)
-         (:fitness b-meta)) a
-      :else b)))
+  (cond 
+    (and (feasible? a)
+         (not-feasible? b)) a
+    (and (not-feasible? a)
+         (feasible? b)) b
+    (> (:fitness (meta a))
+       (:fitness (meta b))) a
+    :else b))
 
 (defn binary-tournament-with-replacement 
   "Preserves the population size" 
@@ -53,6 +61,62 @@
                  (concat (butlast permutation1) 
                          (butlast permutation2)))
             last1))))
+
+(defn euclidian-distance [limits chromosome1 chromosome2]
+  {:pre [(c (coll? limits))
+         (c (coll? chromosome1))
+         (c (coll? chromosome2))]
+   :post [(c (number? %))]}
+  (Math/sqrt
+    (/ (apply + 
+              (map 
+                (fn [{limit-min :min limit-max :max} a b]
+                  (Math/pow (/ (- a b)
+                               (- limit-max limit-min)) 
+                            2))
+                limits chromosome1 chromosome2))
+       (count limits))))
+
+(defn binary-tournament-without-replacement-with-niching 
+  "Preserves the population size"
+  [limits d n chromosomes]
+  {:pre [(c (coll? limits))
+         (c (posnum? d))
+         (c (posnum? n))
+         (c (coll? chromosomes))]
+   :post [(c (and
+               (coll? %)
+               (= (count %) (count chromosomes))))]}
+  (let [cnt (count chromosomes)]
+    (loop [selected-chromosomes []
+           permutation (shuffle chromosomes)]
+      (if (= cnt (count selected-chromosomes))
+        selected-chromosomes
+        (if (< (count permutation) 2)
+          (recur selected-chromosomes
+                 (shuffle chromosomes))
+          (recur 
+            [] ;(if (every? feasible? ))
+            (rest permutation)))))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

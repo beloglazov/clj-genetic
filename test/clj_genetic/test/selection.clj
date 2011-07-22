@@ -4,6 +4,14 @@
         midje.sweet))
 
 (fact
+  (feasible? (with-meta [.a.] {:feasible true})) => true?
+  (feasible? (with-meta [.a.] {:feasible false})) => false?)
+
+(fact
+  (not-feasible? (with-meta [.a.] {:not-feasible true})) => true?
+  (not-feasible? (with-meta [.a.] {:not-feasible false})) => false?)
+
+(fact
   "Tournament selection with replacement:
    1. Any feasible solution is preferred to any infeasible solution.
    2. Among two feasible solutions, the one having better objective function value is preferred.
@@ -94,6 +102,47 @@
 (fact 
   (count (filter #{[1.1787709729490765 0.6367415442153777]} 
                  (binary-tournament-without-replacement input))) => 2)
+
+(def limits [{:min 1 :max 5}
+             {:min -6 :max 3}])
+
+; sqrt (1/2 * (((1-1)/(5-1))^2 + ((3-2)/(3+6))^2)) = 0.07856742
+; sqrt (1/2 * (((5-1)/(5-1))^2 + ((-6-3)/(3+6))^2)) = 1
+; sqrt (1/2 * (((2-1)/(5-1))^2 + ((-5+2)/(3+6))^2)) = 0.294627825
+; sqrt (1/2 * (((4-5)/(5-1))^2 + ((2+5)/(3+6))^2)) = 0.577684287
+
+(fact 
+  (euclidian-distance limits [1 3]  [1 2]) =>  (roughly 0.0785)
+  (euclidian-distance limits [5 -6] [1 3]) =>  (roughly 1)
+  (euclidian-distance limits [2 -5] [1 -2]) => (roughly 0.2946)
+  (euclidian-distance limits [4 2]  [5 -5]) => (roughly 0.5776))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
