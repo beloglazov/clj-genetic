@@ -6,7 +6,11 @@ A Clojure library for solving optimization problems using real-coded Genetic Alg
 * Simulated binary crossover
 * Parameter-based mutation
 
-## License
+## Installation
+
+[clj-genetic "0.1.0"]
+
+## Usage
 
 Please see the clj-genetic.examples.constrained and clj-genetic.examples.unconstrained packages for usage examples.
 
