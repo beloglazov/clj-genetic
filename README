@@ -1,6 +1,6 @@
 # clj-genetic
 
-A Clojure library for real-coded genetic algorithms. The library supports both constrained and unconstrained optimization.
+A Clojure library for solving optimization problems using real-coded Genetic Algorithms. The library supports both constrained and unconstrained optimization.
 
 * Binary tournament selection with and without replacement
 * Simulated binary crossover
