@@ -75,7 +75,7 @@
              {:min 0 :max 100}
              {:min 0 :max 1}])
 
-(def max-generations 50)
+(def max-generations 100)
 (def population-size (estimate-population-size 13))
 
 (defn -main [& args]
