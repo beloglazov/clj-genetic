@@ -1,6 +1,5 @@
 (ns clj-genetic.crossover
-  (:use clj-genetic.util
-        incanter.core))
+  (:use clj-genetic.util))
 
 (defn simulated-binary-with-limits-cross [limits nu gene1 gene2]
   {:pre [(c (contains-keys? limits :min :max))
@@ -14,13 +13,19 @@
                     [gene1 gene2]
                     [gene2 gene1])
           u (rand)
-          b ($= 1 + 2 / (x2 - x1) * (min (- x1 (:min limits)) (- (:max limits) x2)))
-          a ($= 2 - b ** (-1 * (nu + 1)))
+          b (+ 1 
+               (* (/ 2 (- x2 x1))
+                  (min (- x1 (:min limits)) (- (:max limits) x2))))
+          a (- 2 (Math/pow b (- (+ nu 1))))
           beta (if (<= u (/ 1 a))
-                 ($= (a * u) ** (1 / (nu + 1)))
-                 ($= (1 / (2 - a * u)) ** (1 / (nu + 1))))
-          y1 ($= 0.5 * (x1 + x2 - beta * (x2 - x1)))
-          y2 ($= 0.5 * (x1 + x2 + beta * (x2 - x1)))]
+                 (Math/pow (* a u) 
+                           (/ 1 (+ nu 1)))
+                 (Math/pow (/ 1 (- 2 (* a u)))
+                           (/ 1 (+ nu 1))))
+          y1 (* 0.5 (- (+ x1 x2)
+                       (* beta (- x2 x1))))
+          y2 (* 0.5 (+ x1 x2 
+                       (* beta (- x2 x1))))]
       [y1 y2])))
 
 (defn simulated-binary-with-limits
@@ -56,10 +61,13 @@
    :post [(c (coll? %))]}
   (let [u (rand)
         beta (if (<= u 0.5)
-               ($= (2 * u) ** (1 / (nu + 1)))
-               ($= (1 / (2 * (1 - u))) ** (1 / (nu + 1))))
-        y1 ($= 0.5 * (gene1 + gene2 - beta * (Math/abs (- gene2 gene1))))
-        y2 ($= 0.5 * (gene1 + gene2 + beta * (Math/abs (- gene2 gene1))))]
+               (Math/pow (* 2 u) (/ 1 (+ nu 1)))
+               (Math/pow (/ 1 (* 2 (- 1 u)))
+                         (/ 1 (+ nu 1))))
+        y1 (* 0.5 (- (+ gene1 gene2)
+                     (* beta (Math/abs (- gene2 gene1))))) 
+        y2 (* 0.5 (+ gene1 gene2
+                     (* beta (Math/abs (- gene2 gene1)))))]
     [y1 y2]))
 
 (defn simulated-binary
