@@ -95,9 +95,21 @@
         (if (< (count permutation) 2)
           (recur selected-chromosomes
                  (shuffle chromosomes))
-          (recur 
-            [] ;(if (every? feasible? ))
-            (rest permutation)))))))
+          (apply recur ; need to return a vector of selected chromosomes and remaining pool 
+                 (let [a (first chromosomes)] 
+                   (loop [i 0
+                          pool (rest chromosomes)]
+                     (let [b (first pool)
+                           distance (euclidian-distance a b)] 
+                       (cond
+                         (< distance d) [(conj selected-chromosomes (binary-tournament-select a b))
+                                         (rest pool)]
+                         (= i n) [(conj selected-chromosomes a)
+                                  (rest pool)]
+                         (= 1 (count pool)) (recur (inc i)
+                                                   (shuffle chromosomes))
+                         :else (recur (inc i)
+                                      (rest pool))))))))))))
 
 
 
