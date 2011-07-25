@@ -117,7 +117,12 @@
   (euclidian-distance limits [2 -5] [1 -2]) => (roughly 0.2946)
   (euclidian-distance limits [4 2]  [5 -5]) => (roughly 0.5776))
 
-
+(fact
+  (binary-tournament-without-replacement-with-niching limits [.a. .b. .c.]) 
+  => (just .a. .a. .a.)  
+  (provided
+    (euclidian-distance limits anything anything) => 0.01
+    (binary-tournament-select anything anything) => .a.))
 
 
 

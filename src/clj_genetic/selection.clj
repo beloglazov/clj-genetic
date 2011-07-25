@@ -79,37 +79,51 @@
 
 (defn binary-tournament-without-replacement-with-niching 
   "Preserves the population size"
-  [limits d n chromosomes]
-  {:pre [(c (coll? limits))
-         (c (posnum? d))
-         (c (posnum? n))
-         (c (coll? chromosomes))]
-   :post [(c (and
-               (coll? %)
-               (= (count %) (count chromosomes))))]}
-  (let [cnt (count chromosomes)]
-    (loop [selected-chromosomes []
-           permutation (shuffle chromosomes)]
-      (if (= cnt (count selected-chromosomes))
-        selected-chromosomes
-        (if (< (count permutation) 2)
-          (recur selected-chromosomes
-                 (shuffle chromosomes))
-          (apply recur ; need to return a vector of selected chromosomes and remaining pool 
-                 (let [a (first chromosomes)] 
-                   (loop [i 0
-                          pool (rest chromosomes)]
-                     (let [b (first pool)
-                           distance (euclidian-distance a b)] 
-                       (cond
-                         (< distance d) [(conj selected-chromosomes (binary-tournament-select a b))
-                                         (rest pool)]
-                         (= i n) [(conj selected-chromosomes a)
-                                  (rest pool)]
-                         (= 1 (count pool)) (recur (inc i)
-                                                   (shuffle chromosomes))
-                         :else (recur (inc i)
-                                      (rest pool))))))))))))
+  
+  ([limits chromosomes]
+    {:pre [(c (coll? limits))
+           (c (coll? chromosomes))]
+     :post [(c (and
+                 (coll? %)
+                 (= (count %) (count chromosomes))))]}
+    (binary-tournament-without-replacement-with-niching 
+      limits 
+      0.1
+      (* 0.25 (count chromosomes))
+      chromosomes))
+  
+  ([limits d n chromosomes]
+    {:pre [(c (coll? limits))
+           (c (posnum? d))
+           (c (posnum? n))
+           (c (coll? chromosomes))]
+     :post [(c (and
+                 (coll? %)
+                 (= (count %) (count chromosomes))))]}
+    (let [cnt (count chromosomes)]
+      (loop [selected-chromosomes []
+             permutation (shuffle chromosomes)]
+        (if (= cnt (count selected-chromosomes))
+          selected-chromosomes
+          (if (< (count permutation) 2)
+            (recur selected-chromosomes
+                   (shuffle chromosomes))
+            (let [[selected-chromosomes-new permutation-new] 
+                  (let [a (first chromosomes)] 
+                    (loop [i 0
+                           pool (rest chromosomes)]
+                      (let [b (first pool)
+                            distance (euclidian-distance limits a b)] 
+                        (cond
+                          (< distance d) [(conj selected-chromosomes (binary-tournament-select a b))
+                                          (rest pool)]
+                          (= i n) [(conj selected-chromosomes a)
+                                   (rest pool)]
+                          (= 1 (count pool)) (recur (inc i)
+                                                    (shuffle chromosomes))
+                          :else (recur (inc i)
+                                       (rest pool))))))]
+              (recur selected-chromosomes-new permutation-new))))))))
 
 
 
