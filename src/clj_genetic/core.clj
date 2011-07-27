@@ -46,9 +46,10 @@
             (recur (inc generation)
                    (recombination generation (selection results)))))))))
 
-(defn terminate-max-generations? [n]
+(defn terminate-max-generations?
   "Returns true when the maximum allowed generation is reached
    n - maximum allowed generation"
+  [n]
   {:pre [(c (posnum? n))]
    :post [(c (fn? %))]}
   #(>= %2 n))

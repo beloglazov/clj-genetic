@@ -116,9 +116,10 @@
              %2) 
           results))
 
-(defn min-solution [results]
+(defn min-solution
   "Selects the solution that minimizes the objective function
    results - a collection of chromosomes"
+  [results]
   {:pre [(c (coll? results))]
    :post [(c (coll? %))]}
   (let [solution (max-solution results)]

@@ -66,11 +66,12 @@
         [(map first new-genes) (map second new-genes)])
       [chromosome1 chromosome2])))
 
-(defn simulated-binary-cross [nu gene1 gene2]
+(defn simulated-binary-cross
   "Perform simulated binary crossover for two genes
    nu - distribution index for the crossover
    gene1 - first gene
    gene2 - second gene"  
+  [nu gene1 gene2]
   {:pre [(c (posnum? nu))
          (c (number? gene1))
          (c (number? gene2))]

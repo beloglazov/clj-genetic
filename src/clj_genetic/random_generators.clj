@@ -1,10 +1,11 @@
 (ns clj-genetic.random-generators
   (:use clj-genetic.util))
 
-(defn rand-from [from to]
+(defn rand-from 
   "Generates a random values with from-to limits
    from - minimum allowed value
    to - maximum allowed value"
+  [from to]
   {:pre [(c (number? from))
          (c (number? to))]
    :post [(c (number? %))]}

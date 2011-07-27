@@ -1,7 +1,12 @@
 (ns clj-genetic.recombination
   (:use clj-genetic.util))
 
-(defn crossover [crossover-operator generation chromosomes]
+(defn crossover 
+  "Applies a crossover operator on a collection of chromosomes
+   crossover-operator - crossover operator to apply
+   generation - current generation
+   chromosomes - a collection of chromosomes"
+  [crossover-operator generation chromosomes]  
   {:pre [(c (fn? crossover-operator))
          (c (coll? chromosomes))
          (c (not-negnum? generation))]
@@ -13,7 +18,13 @@
                (repeatedly #(crossover-operator (rand-nth chromosomes-vec)
                                                 (rand-nth chromosomes-vec)))))))
 
-(defn crossover-mutation [crossover-operator mutation-operator generation chromosomes]
+(defn crossover-mutation 
+  "Applies crossover and mutation operators on a collection of chromosomes
+   crossover-operator - crossover operator to apply
+   mutation-operator - mutation operator to apply
+   generation - current generation
+   chromosomes - a collection of chromosomes"
+  [crossover-operator mutation-operator generation chromosomes]
   {:pre [(c (fn? crossover-operator))
          (c (fn? mutation-operator))
          (c (coll? chromosomes))
