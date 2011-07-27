@@ -2,7 +2,7 @@
   (:use clj-genetic.util))
 
 (defn feasible? 
-  "Check if a chromosome represents a feasible solution
+  "Checks if a chromosome represents a feasible solution
    chromosome - chromosome to check"
   [chromosome]
   {:pre [(c (coll? chromosome))]
@@ -10,7 +10,7 @@
   (:feasible (meta chromosome)))
 
 (defn not-feasible? 
-  "Check if a chromosome represents an infeasible solution
+  "Checks if a chromosome represents an infeasible solution
    chromosome - chromosome to check"
   [chromosome]
   {:pre [(c (coll? chromosome))]
