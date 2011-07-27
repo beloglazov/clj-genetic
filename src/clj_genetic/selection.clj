@@ -1,21 +1,29 @@
 (ns clj-genetic.selection
   (:use clj-genetic.util))
 
-(defn feasible? [chromosome]
+(defn feasible? 
+  "Check if a chromosome represents a feasible solution
+   chromosome - chromosome to check"
+  [chromosome]
   {:pre [(c (coll? chromosome))]
    :post [(c (boolean? %))]}
   (:feasible (meta chromosome)))
 
-(defn not-feasible? [chromosome]
+(defn not-feasible? 
+  "Check if a chromosome represents an infeasible solution
+   chromosome - chromosome to check"
+  [chromosome]
   {:pre [(c (coll? chromosome))]
    :post [(c (boolean? %))]}
   (:not-feasible (meta chromosome)))
 
 (defn binary-tournament-select
-  "Tournament selection with replacement:
-   1. Any feasible solution is preferred to any infeasible solution.
-   2. Among two feasible solutions, the one having better objective function value is preferred.
-   3. Among two infeasible solutions, the one having smaller constraint violation is preferred."
+  "Selects a chromosome according to the following rules:
+     1. Any feasible solution is preferred to any infeasible solution.
+     2. Among two feasible solutions, the one having better objective function value is preferred.
+     3. Among two infeasible solutions, the one having smaller constraint violation is preferred.
+   a - first chromosome
+   b - second chromosome"
   [a b]
   {:pre [(c (coll? a))
          (c (contains-meta? a :fitness :feasible :not-feasible))
@@ -32,7 +40,8 @@
     :else b))
 
 (defn binary-tournament-with-replacement 
-  "Preserves the population size" 
+  "Binary tournament selection with replacement (preserves the population size)
+   chromosomes - a collection of chromosomes" 
   [chromosomes]
   {:pre [(c (coll? chromosomes))]
    :post [(c (and
@@ -44,7 +53,8 @@
        chromosomes))
 
 (defn binary-tournament-without-replacement 
-  "Preserves the population size"
+  "Binary tournament selection without replacement (preserves the population size)
+   chromosomes - a collection of chromosomes"
   [chromosomes]
   {:pre [(c (coll? chromosomes))]
    :post [(c (and
@@ -62,7 +72,12 @@
                          (butlast permutation2)))
             last1))))
 
-(defn euclidian-distance [limits chromosome1 chromosome2]
+(defn euclidian-distance
+  "Calculates the Euclidian distance between two chromosomes
+   limits - limits on gene values
+   chromosome1 - first chromosome
+   chromosome2 - second chromosome"
+  [limits chromosome1 chromosome2]
   {:pre [(c (coll? limits))
          (c (coll? chromosome1))
          (c (coll? chromosome2))]
@@ -78,8 +93,9 @@
        (count limits))))
 
 (defn binary-tournament-without-replacement-with-niching 
-  "Preserves the population size"
-  
+  "Binary tournament selection without replacement with niching (preserves the population size)
+   limits - limits on gene values
+   chromosomes - a collection of chromosomes"  
   ([limits chromosomes]
     {:pre [(c (coll? limits))
            (c (coll? chromosomes))]
