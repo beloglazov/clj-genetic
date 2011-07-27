@@ -1,7 +1,14 @@
 (ns clj-genetic.core
   (:use clj-genetic.util))
 
-(defn run 
+(defn run
+  "Run a genetic algorithm
+   objective - optimization objective [minimize/maximize]
+   selection - selection function
+   recombination - function invoking a combination of crossover and/or mutation
+   terminate? - function deciding when to terminate the computation
+   initial-population - initial collection of chromosomes
+   log - optional function for logging in the beginning of each iteration"
   
   ([objective selection recombination terminate? initial-population]
     {:pre [(c (contains-keys? objective :evaluate :solution :objective))
@@ -40,12 +47,15 @@
                    (recombination generation (selection results)))))))))
 
 (defn terminate-max-generations? [n]
+  "Returns true when the maximum allowed generation is reached
+   n - maximum allowed generation"
   {:pre [(c (posnum? n))]
    :post [(c (fn? %))]}
   #(>= %2 n))
 
 (defn estimate-population-size
-  "A simple heuristic suggested by (K. Deb, 2000): vars * 10 "
+  "A simple heuristic suggested by (K. Deb, 2000): vars * 10
+   vars - the number of genes (variables)"
   [vars]
   {:pre [(c (posnum? vars))]
    :post [(c (posnum? %))]}
