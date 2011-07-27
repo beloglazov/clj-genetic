@@ -96,7 +96,7 @@
     (+ gene (* delta delta-max))))
 
 (defn parameter-based-with-limits
-  "Parameter-based mutation operator supporting genes limits
+  "Parameter-based mutation operator supporting gene limits
    limits - limits of possible gene values
    t-max - maximum number of generations allowed
    t - current generation

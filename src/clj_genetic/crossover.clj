@@ -1,7 +1,13 @@
 (ns clj-genetic.crossover
   (:use clj-genetic.util))
 
-(defn simulated-binary-with-limits-cross [limits nu gene1 gene2]
+(defn simulated-binary-with-limits-cross
+  "Perform simulated binary crossover for two genes
+   limits - limits of possible gene values
+   nu - distribution index for the crossover
+   gene1 - first gene
+   gene2 - second gene"
+  [limits nu gene1 gene2]
   {:pre [(c (contains-keys? limits :min :max))
          (c (posnum? nu))
          (c (number? gene1))
@@ -29,7 +35,13 @@
       [y1 y2])))
 
 (defn simulated-binary-with-limits
-  
+  "Simulated binary crossover operation supporting gene limits
+   limits - limits of possible gene values
+   chromosome1 - first chromosome
+   chromosome2 - second chromosome
+   probability - probability of crossover for two chromosomes
+   gene-probability - probability of crossover for two genes
+   nu - distribution index for the crossover"
   ([limits chromosome1 chromosome2]
     {:pre [(c (coll? limits))
            (c (coll? chromosome1))
@@ -55,6 +67,10 @@
       [chromosome1 chromosome2])))
 
 (defn simulated-binary-cross [nu gene1 gene2]
+  "Perform simulated binary crossover for two genes
+   nu - distribution index for the crossover
+   gene1 - first gene
+   gene2 - second gene"  
   {:pre [(c (posnum? nu))
          (c (number? gene1))
          (c (number? gene2))]
@@ -71,7 +87,12 @@
     [y1 y2]))
 
 (defn simulated-binary
-  
+  "Simulated binary crossover operation
+   chromosome1 - first chromosome
+   chromosome2 - second chromosome
+   probability - probability of crossover for two chromosomes
+   gene-probability - probability of crossover for two genes
+   nu - distribution index for the crossover"
   ([chromosome1 chromosome2]
     {:pre [(c (coll? chromosome1))
            (c (coll? chromosome2))]
