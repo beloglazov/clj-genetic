@@ -19,9 +19,22 @@
 (defn parameter-based-mutate
   "Perform a mutation for the parameter-based mutation operator
    nu-base - the base for calculating nu = nu-base + t
-   delta-max - maximum allowed perturbance of a gene
    t - current generation
-   gene - gene to mutate"
+   gene - gene to mutate
+   delta-max - maximum allowed perturbance of a gene"  
+  ([nu-base t gene]
+    {:pre [(c (not-negnum? nu-base))
+           (c (not-negnum? t))
+           (c (number? gene))]
+     :post [(c (number? %))]}
+    (let [delta-max (Math/abs gene)
+          nu (+ nu-base t)
+          u (rand)
+          delta (if (<= u 0.5)
+                  (- (Math/pow (* 2 u) (/ 1 (+ nu 1))) 1)
+                  (- 1 (Math/pow (* 2 (- 1 u)) (/ 1 (+ nu 1)))))]
+      (+ gene (* delta delta-max))))
+  
   ([nu-base delta-max t gene]
     {:pre [(c (not-negnum? nu-base))
            (c (posnum? delta-max))
@@ -37,12 +50,25 @@
 
 (defn parameter-based
   "Parameter-based mutation operator
-   delta-max - maximum allowed perturbance of a gene
    t-max - maximum number of generations allowed
    t - current generation
    genes - a set of genes to mutate
+   delta-max - maximum allowed perturbance of a gene
+   default delta-max = the absolute value of the gene
    nu-base - the base for calculating nu = nu-base + t
    default nu-base = 100"  
+  ([t-max t genes]
+    {:pre [(c (not-negnum? t-max))
+           (c (not-negnum? t))
+           (c (coll? genes))]
+     :post [(c (coll? %))]}
+    (let [n (count genes)]
+      (map (fn [gene]
+             (if (parameter-based-mutate? t-max t n)
+               (parameter-based-mutate 100 t gene)
+               gene))
+           genes)))
+  
   ([delta-max t-max t genes]
     {:pre [(c (posnum? delta-max))
            (c (not-negnum? t-max))
