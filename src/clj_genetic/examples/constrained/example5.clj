@@ -14,7 +14,6 @@
 ; Crossover: simulated binary
 ; From the paper: K. Deb, An efficient constraint handling method for genetic algorithms
 
-
 (defn f 
   "Test Problem 3 -> minimize
    The optimal solution is x=(1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 1)

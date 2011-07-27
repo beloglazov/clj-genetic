@@ -11,6 +11,7 @@
 ; 1 parameter
 ; Selection: binary tournament without replacement
 ; Crossover: simulated binary
+; From the paper: K. Deb, R.B. Agrawal, Simulated Binary Crossover for Continuous Search Space
 
 (defn f 
   "Bimodal, equal spread function -> minimize
@@ -22,7 +23,7 @@
     (- (* 0.5 (Math/pow Math/E (- (/ (Math/pow (- x 0.75) 2) 0.01)))))))
 
 (def max-generations 200)
-(def population-size 50)
+(def population-size (estimate-population-size 2))
 
 (defn -main [& args]
   (prn (run

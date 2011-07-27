@@ -11,7 +11,7 @@
 ; 2 parameters
 ; Selection: binary tournament without replacement
 ; Crossover: simulated binary
-; Mutation: parameter-based
+; From the paper: K. Deb, R.B. Agrawal, Simulated Binary Crossover for Continuous Search Space
 
 (defn f 
   "A two-variable blocked function -> maximize
@@ -30,15 +30,13 @@
                    [0 0 10 10 10]))))
 
 (def max-generations 200)
-(def population-size 20)
+(def population-size (estimate-population-size 2))
 
 (defn -main [& args]
   (prn (run
          (objective/maximize f)
          selection/binary-tournament-without-replacement
-         (partial recombination/crossover-mutation 
-                  crossover/simulated-binary                  
-                  (partial mutation/parameter-based max-generations))
+         (partial recombination/crossover crossover/simulated-binary)
          (terminate-max-generations? max-generations)
          (random-generators/generate-population-n-vars population-size 2)
          #(prn "Generation: " %2 "; Results: " %1))))

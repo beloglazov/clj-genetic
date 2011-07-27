@@ -37,7 +37,7 @@
   
   ([nu-base delta-max t gene]
     {:pre [(c (not-negnum? nu-base))
-           (c (posnum? delta-max))
+           (c (not-negnum? delta-max))
            (c (not-negnum? t))
            (c (number? gene))]
      :post [(c (number? %))]}
@@ -70,7 +70,7 @@
            genes)))
   
   ([delta-max t-max t genes]
-    {:pre [(c (posnum? delta-max))
+    {:pre [(c (not-negnum? delta-max))
            (c (not-negnum? t-max))
            (c (not-negnum? t))
            (c (coll? genes))]
@@ -79,7 +79,7 @@
   
   ([nu-base delta-max t-max t genes]
     {:pre [(c (posnum? nu-base))
-           (c (posnum? delta-max))
+           (c (not-negnum? delta-max))
            (c (not-negnum? t-max))
            (c (not-negnum? t))
            (c (coll? genes))]

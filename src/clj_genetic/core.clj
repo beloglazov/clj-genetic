@@ -55,9 +55,9 @@
   #(>= %2 n))
 
 (defn estimate-population-size
-  "A simple heuristic suggested by (K. Deb, 2000): vars * 10
+  "A simple heuristic: vars * 20
    vars - the number of genes (variables)"
   [vars]
   {:pre [(c (posnum? vars))]
    :post [(c (posnum? %))]}
-  (* vars 10))
+  (* vars 20))

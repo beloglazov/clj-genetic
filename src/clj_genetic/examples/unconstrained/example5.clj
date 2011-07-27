@@ -11,31 +11,36 @@
 ; 2 parameters
 ; Selection: binary tournament without replacement
 ; Crossover: simulated binary
+; Mutation: parameter-based
+; From the paper: K. Deb, R.B. Agrawal, Simulated Binary Crossover for Continuous Search Space
 
 (defn f 
-  "A two-variable blocked function -> maximize
-   The global maximum is at (0.4, 0.45)
-   f(0.4, 0.45)=4.853068904778351"
+  "Pole problem -> maximize
+   Four minimum points. The global maximum is at (0.8, 0.8)
+   f(0.8, 0.8)=201.5070655152517"
   [x y]
-  (+ (- (Math/pow (- x 0.4) 2)) 
-     (apply + (map (fn [a b c r]
-                     (/ a 
-                        (+ b 
-                           (* r (Math/pow (- x 0.4) 2))
-                           (Math/pow (- y c) 2))))
-                   [0.002 0.0025 0.014 0.003 0.0028]
-                   [0.002 0.0020 0.003 0.001 0.0010]
-                   [0.1 0.9 0.45 0.27 0.65]
-                   [0 0 10 10 10]))))
+  (apply + (map (fn [a b c h]
+                  (/ (* c h) 
+                     (Math/pow (+ (Math/pow h 2) 
+                                  (Math/pow (- x a) 2) 
+                                  (Math/pow (- y b) 2)) 
+                               (/ 3 2))))
+                [0.4 0.3 0.7 0.8]
+                [0.3 0.7 0.2 0.8]
+                [1.0 1.0 1.0 1.125]
+                [0.1 0.1 0.1 0.075])))
 
 (def max-generations 200)
-(def population-size 50)
+(def population-size (estimate-population-size 2))
 
 (defn -main [& args]
   (prn (run
          (objective/maximize f)
          selection/binary-tournament-without-replacement
-         (partial recombination/crossover crossover/simulated-binary)
+         (partial recombination/crossover-mutation 
+                  crossover/simulated-binary
+                  (partial mutation/parameter-based 1 max-generations))
          (terminate-max-generations? max-generations)
          (random-generators/generate-population-n-vars population-size 2)
          #(prn "Generation: " %2 "; Results: " %1))))
+

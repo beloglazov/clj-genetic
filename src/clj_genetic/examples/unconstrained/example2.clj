@@ -11,6 +11,7 @@
 ; 1 parameter with limits
 ; Selection: binary tournament without replacement
 ; Crossover: simulated binary
+; From the paper: K. Deb, R.B. Agrawal, Simulated Binary Crossover for Continuous Search Space
 
 (defn f 
   "V-cliff function -> minimize
@@ -22,7 +23,7 @@
 
 (def limits [{:min 0 :max 1}])
 (def max-generations 200)
-(def population-size 50)
+(def population-size (estimate-population-size 2))
 
 (defn -main [& args]
   (prn (run
