@@ -2,7 +2,9 @@
   (:use clj-genetic.util))
 
 (defn max-evaluate
-  "Evaluates the fitness function for each chromosome to maximize the objective function"
+  "Evaluates the fitness function for each chromosome to maximize the objective function
+   fitness - fitness function
+   chromosomes - chromosomes to find the fitness for"
   [fitness chromosomes]
   {:pre [(c (fn? fitness))
          (c (coll? chromosomes))]
@@ -13,7 +15,9 @@
        chromosomes))
 
 (defn min-evaluate
-  "Evaluates the fitness function for each chromosome to minimize the objective function"
+  "Evaluates the fitness function for each chromosome to minimize the objective function
+   fitness - fitness function
+   chromosomes - chromosomes to find the fitness for"
   [fitness chromosomes]
   {:pre [(c (fn? fitness))
          (c (coll? chromosomes))]
@@ -24,7 +28,9 @@
        chromosomes))
 
 (defn constraint-violation
-  "Returns a list of absolute constraint violation values, or false"  
+  "Returns a list of absolute constraint violation values, or false
+   constraints - contraint functions
+   genes - genes to evalute the constraints"  
   [constraints genes]
   {:pre [(c (coll? constraints))
          (c (coll? genes))]
@@ -38,7 +44,10 @@
       false
       (map #(if (false? %) 0 %) results))))
 
-(defn worst-fitness [chromosomes]
+(defn worst-fitness
+  "Finds the worst fitness value for a collection of chromosomes
+   chromosomes - a collection of chromosomes"
+  [chromosomes]
   {:pre [(c (coll? chromosomes))]
    :post [(c (number? %))]}
   (reduce #(min %1 %2) 
@@ -46,7 +55,10 @@
 
 (defn max-evaluate-with-constraints
   "Evaluates the fitness function for each chromosome to maximize the objective function
-   taking into account for the constraints"
+   taking into account the constraints
+   constraints - contraint functions
+   fitness - fitness function
+   chromosomes - chromosomes to find the fitness for"
   [constraints fitness chromosomes]
   {:pre [(c (coll? constraints))
          (c (fn? fitness))
@@ -69,7 +81,10 @@
 
 (defn min-evaluate-with-constraints
   "Evaluates the fitness function for each chromosome to maximize the objective function
-   taking into account for the constraints"
+   taking into account the constraints
+   constraints - contraint functions
+   fitness - fitness function
+   chromosomes - chromosomes to find the fitness for"
   [constraints fitness chromosomes]
   {:pre [(c (coll? constraints))
          (c (fn? fitness))
@@ -90,7 +105,10 @@
             %) 
          evaluated-chromosomes)))
 
-(defn max-solution [results]
+(defn max-solution 
+  "Selects the solution that maximizes the objective function
+   results - a collection of chromosomes" 
+  [results]
   {:pre [(c (coll? results))]
    :post [(c (coll? %))]}
   (reduce #(if (> (:fitness (meta %1)) (:fitness (meta %2)))
@@ -99,13 +117,17 @@
           results))
 
 (defn min-solution [results]
+  "Selects the solution that minimizes the objective function
+   results - a collection of chromosomes"
   {:pre [(c (coll? results))]
    :post [(c (coll? %))]}
   (let [solution (max-solution results)]
     (vary-meta solution assoc :fitness (- (:fitness (meta solution))))))
 
 (defn maximize 
-  
+  "Returns a configuration for a maximization problem
+   f - objective function
+   constraints - constraint functions"
   ([f]
     {:pre [(c (fn? f))]
      :post [(c (map? %))]}
@@ -122,7 +144,9 @@
      :objective "Maximize"}))
 
 (defn minimize 
-  
+  "Returns a configuration for a minimization problem
+   f - objective function
+   constraints - constraint functions"
   ([f]
     {:pre [(c (fn? f))]
      :post [(c (map? %))]}
