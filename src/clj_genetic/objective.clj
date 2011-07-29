@@ -38,7 +38,7 @@
   (let [results (map #(let [result (apply (first %) genes)]
                         (if ((second %) result (last %))
                           false
-                          (Math/abs result)))
+                          (Math/abs (double result))))
                      constraints)]
     (if (every? false? results)
       false
