@@ -1,5 +1,5 @@
 (ns clj-genetic.recombination
-  (:use clj-genetic.util))
+  (:use clj-predicates.core))
 
 (defn crossover 
   "Applies a crossover operator on a collection of chromosomes
@@ -7,10 +7,10 @@
    generation - current generation
    chromosomes - a collection of chromosomes"
   [crossover-operator generation chromosomes]  
-  {:pre [(c (fn? crossover-operator))
-         (c (coll? chromosomes))
-         (c (not-negnum? generation))]
-   :post [(c (coll? %))]}
+  {:pre [(fn? crossover-operator)
+         (coll? chromosomes)
+         (not-negnum? generation)]
+   :post [(coll? %)]}
   (let [n (/ (count chromosomes) 2)
         chromosomes-vec (vec chromosomes)] 
     (apply concat 
@@ -25,10 +25,10 @@
    generation - current generation
    chromosomes - a collection of chromosomes"
   [crossover-operator mutation-operator generation chromosomes]
-  {:pre [(c (fn? crossover-operator))
-         (c (fn? mutation-operator))
-         (c (coll? chromosomes))
-         (c (not-negnum? generation))]
-   :post [(c (coll? %))]}
+  {:pre [(fn? crossover-operator)
+         (fn? mutation-operator)
+         (coll? chromosomes)
+         (not-negnum? generation)]
+   :post [(coll? %)]}
   (map (partial mutation-operator generation) 
        (crossover crossover-operator generation chromosomes)))

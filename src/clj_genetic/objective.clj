@@ -1,14 +1,14 @@
 (ns clj-genetic.objective
-  (:use clj-genetic.util))
+  (:use clj-predicates.core))
 
 (defn max-evaluate
   "Evaluates the fitness function for each chromosome to maximize the objective function
    fitness - fitness function
    chromosomes - chromosomes to find the fitness for"
   [fitness chromosomes]
-  {:pre [(c (fn? fitness))
-         (c (coll? chromosomes))]
-   :post [(c (coll? %))]}
+  {:pre [(fn? fitness)
+         (coll? chromosomes)]
+   :post [(coll? %)]}
   (map #(with-meta % {:fitness (apply fitness %)
                       :feasible true
                       :not-feasible false}) 
@@ -19,9 +19,9 @@
    fitness - fitness function
    chromosomes - chromosomes to find the fitness for"
   [fitness chromosomes]
-  {:pre [(c (fn? fitness))
-         (c (coll? chromosomes))]
-   :post [(c (coll? %))]}
+  {:pre [(fn? fitness)
+         (coll? chromosomes)]
+   :post [(coll? %)]}
   (map #(with-meta % {:fitness (- (apply fitness %))
                       :feasible true
                       :not-feasible false}) 
@@ -32,9 +32,9 @@
    constraints - contraint functions
    genes - genes to evalute the constraints"  
   [constraints genes]
-  {:pre [(c (coll? constraints))
-         (c (coll? genes))]
-   :post [(c (or (false? %) (coll? %)))]}
+  {:pre [(coll? constraints)
+         (coll? genes)]
+   :post [(or (false? %) (coll? %))]}
   (let [results (map #(let [result (apply (first %) genes)]
                         (if ((second %) result (last %))
                           false
@@ -48,8 +48,8 @@
   "Finds the worst fitness value for a collection of chromosomes
    chromosomes - a collection of chromosomes"
   [chromosomes]
-  {:pre [(c (coll? chromosomes))]
-   :post [(c (number? %))]}
+  {:pre [(coll? chromosomes)]
+   :post [(number? %)]}
   (reduce #(min %1 %2) 
           (map #(:fitness (meta %)) chromosomes)))
 
@@ -60,10 +60,10 @@
    fitness - fitness function
    chromosomes - chromosomes to find the fitness for"
   [constraints fitness chromosomes]
-  {:pre [(c (coll? constraints))
-         (c (fn? fitness))
-         (c (coll? chromosomes))]
-   :post [(c (coll? %))]}
+  {:pre [(coll? constraints)
+         (fn? fitness)
+         (coll? chromosomes)]
+   :post [(coll? %)]}
   (let [evaluated-chromosomes (map #(with-meta % 
                                       (if-let [violation (constraint-violation constraints %)] 
                                         {:fitness (apply + violation)
@@ -86,10 +86,10 @@
    fitness - fitness function
    chromosomes - chromosomes to find the fitness for"
   [constraints fitness chromosomes]
-  {:pre [(c (coll? constraints))
-         (c (fn? fitness))
-         (c (coll? chromosomes))]
-   :post [(c (coll? %))]}
+  {:pre [(coll? constraints)
+         (fn? fitness)
+         (coll? chromosomes)]
+   :post [(coll? %)]}
   (let [evaluated-chromosomes (map #(with-meta % 
                                       (if-let [violation (constraint-violation constraints %)] 
                                         {:fitness (apply + violation)
@@ -109,8 +109,8 @@
   "Selects the solution that maximizes the objective function
    results - a collection of chromosomes" 
   [results]
-  {:pre [(c (coll? results))]
-   :post [(c (coll? %))]}
+  {:pre [(coll? results)]
+   :post [(coll? %)]}
   (reduce #(if (> (:fitness (meta %1)) (:fitness (meta %2)))
              %1
              %2) 
@@ -120,8 +120,8 @@
   "Selects the solution that minimizes the objective function
    results - a collection of chromosomes"
   [results]
-  {:pre [(c (coll? results))]
-   :post [(c (coll? %))]}
+  {:pre [(coll? results)]
+   :post [(coll? %)]}
   (let [solution (max-solution results)]
     (vary-meta solution assoc :fitness (- (:fitness (meta solution))))))
 
@@ -130,16 +130,16 @@
    f - objective function
    constraints - constraint functions"
   ([f]
-    {:pre [(c (fn? f))]
-     :post [(c (map? %))]}
+    {:pre [(fn? f)]
+     :post [(map? %)]}
     {:evaluate (partial max-evaluate f)
      :solution max-solution
      :objective "Maximize"})
   
   ([f constraints]
-    {:pre [(c (fn? f))
-           (c (coll? constraints))]
-     :post [(c (map? %))]}
+    {:pre [(fn? f)
+           (coll? constraints)]
+     :post [(map? %)]}
     {:evaluate (partial max-evaluate-with-constraints constraints f)
      :solution max-solution
      :objective "Maximize"}))
@@ -149,16 +149,16 @@
    f - objective function
    constraints - constraint functions"
   ([f]
-    {:pre [(c (fn? f))]
-     :post [(c (map? %))]}
+    {:pre [(fn? f)]
+     :post [(map? %)]}
     {:evaluate (partial min-evaluate f)
      :solution min-solution
      :objective "Minimize"})
   
   ([f constraints]
-    {:pre [(c (fn? f))
-           (c (coll? constraints))]
-     :post [(c (map? %))]}
+    {:pre [(fn? f)
+           (coll? constraints)]
+     :post [(map? %)]}
     {:evaluate (partial min-evaluate-with-constraints constraints f)
      :solution min-solution
      :objective "Minimize"}))

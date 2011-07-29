@@ -1,6 +1,6 @@
 (ns clj-genetic.test.recombination
   (:use clj-genetic.recombination
-        clj-genetic.util
+        clj-predicates.core
         midje.sweet))
 
 (unfinished crossover-operator mutation-operator)

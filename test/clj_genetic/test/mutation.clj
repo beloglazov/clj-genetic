@@ -1,6 +1,6 @@
 (ns clj-genetic.test.mutation
   (:use clj-genetic.mutation
-        clj-genetic.util
+        clj-predicates.core
         midje.sweet))
 
 (def genes [1 2 3])

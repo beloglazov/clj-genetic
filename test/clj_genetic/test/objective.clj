@@ -1,6 +1,6 @@
 (ns clj-genetic.test.objective
   (:use clj-genetic.objective
-        clj-genetic.util
+        clj-predicates.core
         midje.sweet))
 
 (unfinished fitness f)

@@ -1,6 +1,6 @@
 (ns clj-genetic.test.random-generators
   (:use clj-genetic.random-generators
-        clj-genetic.util
+        clj-predicates.core
         midje.sweet))
 
 (fact 

@@ -1,20 +1,20 @@
 (ns clj-genetic.selection
-  (:use clj-genetic.util))
+  (:use clj-predicates.core))
 
 (defn feasible? 
   "Checks if a chromosome represents a feasible solution
    chromosome - chromosome to check"
   [chromosome]
-  {:pre [(c (coll? chromosome))]
-   :post [(c (boolean? %))]}
+  {:pre [(coll? chromosome)]
+   :post [(boolean? %)]}
   (:feasible (meta chromosome)))
 
 (defn not-feasible? 
   "Checks if a chromosome represents an infeasible solution
    chromosome - chromosome to check"
   [chromosome]
-  {:pre [(c (coll? chromosome))]
-   :post [(c (boolean? %))]}
+  {:pre [(coll? chromosome)]
+   :post [(boolean? %)]}
   (:not-feasible (meta chromosome)))
 
 (defn binary-tournament-select
@@ -25,11 +25,11 @@
    a - first chromosome
    b - second chromosome"
   [a b]
-  {:pre [(c (coll? a))
-         (c (contains-meta? a :fitness :feasible :not-feasible))
-         (c (coll? b))
-         (c (contains-meta? b :fitness :feasible :not-feasible))]
-   :post [(c (coll? %))]}
+  {:pre [(coll? a)
+         (contains-meta? a :fitness :feasible :not-feasible)
+         (coll? b)
+         (contains-meta? b :fitness :feasible :not-feasible)]
+   :post [(coll? %)]}
   (cond 
     (and (feasible? a)
          (not-feasible? b)) a
@@ -43,10 +43,10 @@
   "Binary tournament selection with replacement (preserves the population size)
    chromosomes - a collection of chromosomes" 
   [chromosomes]
-  {:pre [(c (coll? chromosomes))]
-   :post [(c (and
-               (coll? %)
-               (= (count %) (count chromosomes))))]}
+  {:pre [(coll? chromosomes)]
+   :post [(and
+            (coll? %)
+            (= (count %) (count chromosomes)))]}
   (map (fn [x] 
          (binary-tournament-select (rand-nth chromosomes)
                                    (rand-nth chromosomes)))
@@ -56,10 +56,10 @@
   "Binary tournament selection without replacement (preserves the population size)
    chromosomes - a collection of chromosomes"
   [chromosomes]
-  {:pre [(c (coll? chromosomes))]
-   :post [(c (and
-               (coll? %)
-               (= (count %) (count chromosomes))))]}
+  {:pre [(coll? chromosomes)]
+   :post [(and
+            (coll? %)
+            (= (count %) (count chromosomes)))]}
   (if (even? (count chromosomes))
     (map #(apply binary-tournament-select %) 
          (partition 2 (concat (shuffle chromosomes) 
@@ -78,10 +78,10 @@
    chromosome1 - first chromosome
    chromosome2 - second chromosome"
   [limits chromosome1 chromosome2]
-  {:pre [(c (coll? limits))
-         (c (coll? chromosome1))
-         (c (coll? chromosome2))]
-   :post [(c (number? %))]}
+  {:pre [(coll? limits)
+         (coll? chromosome1)
+         (coll? chromosome2)]
+   :post [(number? %)]}
   (Math/sqrt
     (/ (apply + 
               (map 
@@ -97,11 +97,11 @@
    limits - limits on gene values
    chromosomes - a collection of chromosomes"  
   ([limits chromosomes]
-    {:pre [(c (coll? limits))
-           (c (coll? chromosomes))]
-     :post [(c (and
-                 (coll? %)
-                 (= (count %) (count chromosomes))))]}
+    {:pre [(coll? limits)
+           (coll? chromosomes)]
+     :post [(and
+              (coll? %)
+              (= (count %) (count chromosomes)))]}
     (binary-tournament-without-replacement-with-niching 
       limits 
       0.1
@@ -109,13 +109,13 @@
       chromosomes))
   
   ([limits d n chromosomes]
-    {:pre [(c (coll? limits))
-           (c (posnum? d))
-           (c (posnum? n))
-           (c (coll? chromosomes))]
-     :post [(c (and
-                 (coll? %)
-                 (= (count %) (count chromosomes))))]}
+    {:pre [(coll? limits)
+           (posnum? d)
+           (posnum? n)
+           (coll? chromosomes)]
+     :post [(and
+              (coll? %)
+              (= (count %) (count chromosomes)))]}
     (let [cnt (count chromosomes)]
       (loop [selected-chromosomes []
              permutation (shuffle chromosomes)]

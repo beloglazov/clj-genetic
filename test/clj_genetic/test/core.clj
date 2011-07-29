@@ -1,6 +1,6 @@
 (ns clj-genetic.test.core
   (:use clj-genetic.core
-        clj-genetic.util
+        clj-predicates.core
         midje.sweet))
 
 (unfinished evaluate solution objective selection recombination terminate? fitness)

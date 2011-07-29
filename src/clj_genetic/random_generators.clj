@@ -1,14 +1,14 @@
 (ns clj-genetic.random-generators
-  (:use clj-genetic.util))
+  (:use clj-predicates.core))
 
 (defn rand-from 
   "Generates a random values with from-to limits
    from - minimum allowed value
    to - maximum allowed value"
   [from to]
-  {:pre [(c (number? from))
-         (c (number? to))]
-   :post [(c (number? %))]}
+  {:pre [(number? from)
+         (number? to)]
+   :post [(number? %)]}
   (+ from (rand (- to from))))
 
 (defn generate-population
@@ -18,15 +18,15 @@
    limits - limits on gene values"
   
   ([size]
-    {:pre [(c (posnum? size))]
-     :post [(c (coll? %))]}
+    {:pre [(posnum? size)]
+     :post [(coll? %)]}
     (generate-population size [{:min -1000 
                              :max 1000}]))
   
   ([size limits]
-    {:pre [(c (posnum? size))
-           (c (coll? limits))]
-     :post [(c (coll? %))]}
+    {:pre [(posnum? size)
+           (coll? limits)]
+     :post [(coll? %)]}
     (map 
       (fn [i]
         (map 
@@ -41,18 +41,18 @@
    vars - number of variables in a chromosome
    limits - limits on gene values"
   ([size vars]  
-    {:pre [(c (posnum? size))
-           (c (posnum? vars))]
-     :post [(c (coll? %))]}
+    {:pre [(posnum? size)
+           (posnum? vars)]
+     :post [(coll? %)]}
     (apply map vector
            (take vars (repeatedly 
                         #(map first (generate-population size))))))
   
   ([size vars limits]  
-    {:pre [(c (posnum? size))
-           (c (posnum? vars))
-           (c (coll? limits))]
-     :post [(c (coll? %))]}
+    {:pre [(posnum? size)
+           (posnum? vars)
+           (coll? limits)]
+     :post [(coll? %)]}
     (apply map vector
            (take vars (repeatedly 
                         #(map first (generate-population size limits)))))))

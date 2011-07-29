@@ -1,6 +1,6 @@
 (ns clj-genetic.test.selection
   (:use clj-genetic.selection
-        clj-genetic.util
+        clj-predicates.core
         midje.sweet))
 
 (fact

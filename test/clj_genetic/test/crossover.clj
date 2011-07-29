@@ -1,6 +1,6 @@
 (ns clj-genetic.test.crossover
   (:use clj-genetic.crossover
-        clj-genetic.util
+        clj-predicates.core
         midje.sweet))
 
 (def chromosome1 [1 2 3])

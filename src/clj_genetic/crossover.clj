@@ -1,5 +1,5 @@
 (ns clj-genetic.crossover
-  (:use clj-genetic.util))
+  (:use clj-predicates.core))
 
 (defn simulated-binary-with-limits-cross
   "Perform simulated binary crossover for two genes
@@ -8,11 +8,11 @@
    gene1 - first gene
    gene2 - second gene"
   [limits nu gene1 gene2]
-  {:pre [(c (contains-keys? limits :min :max))
-         (c (posnum? nu))
-         (c (number? gene1))
-         (c (number? gene2))]
-   :post [(c (coll? %))]}
+  {:pre [(contains-keys? limits :min :max)
+         (posnum? nu)
+         (number? gene1)
+         (number? gene2)]
+   :post [(coll? %)]}
   (if (= gene1 gene2)
     [gene1 gene2]
     (let [[x1 x2] (if (< gene1 gene2)
@@ -43,20 +43,20 @@
    gene-probability - probability of crossover for two genes
    nu - distribution index for the crossover"
   ([limits chromosome1 chromosome2]
-    {:pre [(c (coll? limits))
-           (c (coll? chromosome1))
-           (c (coll? chromosome2))]
-     :post [(c (coll? %))]}
+    {:pre [(coll? limits)
+           (coll? chromosome1)
+           (coll? chromosome2)]
+     :post [(coll? %)]}
     (simulated-binary-with-limits limits 0.9 0.5 1 chromosome1 chromosome2))
   
   ([limits probability gene-probability nu chromosome1 chromosome2]
-    {:pre [(c (coll? limits))
+    {:pre [(coll? limits)
            (not-negnum? probability)
            (not-negnum? gene-probability)
            (not-negnum? nu)
-           (c (coll? chromosome1))
-           (c (coll? chromosome2))]
-     :post [(c (coll? %))]}
+           (coll? chromosome1)
+           (coll? chromosome2)]
+     :post [(coll? %)]}
     (if (< (rand) probability) 
       (let [new-genes (map (fn [gene1 gene2 gene-limits]
                              (if (< (rand) gene-probability)
@@ -72,10 +72,10 @@
    gene1 - first gene
    gene2 - second gene"  
   [nu gene1 gene2]
-  {:pre [(c (posnum? nu))
-         (c (number? gene1))
-         (c (number? gene2))]
-   :post [(c (coll? %))]}
+  {:pre [(posnum? nu)
+         (number? gene1)
+         (number? gene2)]
+   :post [(coll? %)]}
   (let [u (rand)
         beta (if (<= u 0.5)
                (Math/pow (* 2 u) (/ 1 (+ nu 1)))
@@ -95,18 +95,18 @@
    gene-probability - probability of crossover for two genes
    nu - distribution index for the crossover"
   ([chromosome1 chromosome2]
-    {:pre [(c (coll? chromosome1))
-           (c (coll? chromosome2))]
-     :post [(c (coll? %))]}
+    {:pre [(coll? chromosome1)
+           (coll? chromosome2)]
+     :post [(coll? %)]}
     (simulated-binary 0.9 0.5 1 chromosome1 chromosome2))
   
   ([probability gene-probability nu chromosome1 chromosome2]
     {:pre [(not-negnum? probability)
            (not-negnum? gene-probability)
            (not-negnum? nu)
-           (c (coll? chromosome1))
-           (c (coll? chromosome2))]
-     :post [(c (coll? %))]}
+           (coll? chromosome1)
+           (coll? chromosome2)]
+     :post [(coll? %)]}
     (if (< (rand) probability) 
       (let [new-genes (map (fn [gene1 gene2]
                              (if (< (rand) gene-probability)
