@@ -8,7 +8,7 @@ A Clojure library for solving optimization problems using real-coded Genetic Alg
 
 ## Installation
 
-[clj-genetic "0.2.0"]
+[clj-genetic "0.2.1"]
 
 ## Usage
 
