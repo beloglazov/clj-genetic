@@ -8,7 +8,7 @@ A Clojure library for solving optimization problems using real-coded Genetic Alg
 
 ## Installation
 
-[clj-genetic "0.2.3"]
+[clj-genetic "0.3.0"]
 
 ## Usage
 
@@ -16,6 +16,6 @@ Please see the clj-genetic.examples.constrained and clj-genetic.examples.unconst
 
 ## License
 
-Copyright (C) 2011 Anton Beloglazov
+Copyright (C) 2011-2012 Anton Beloglazov
 
 Distributed under the Eclipse Public License, the same as Clojure.
