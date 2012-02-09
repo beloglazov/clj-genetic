@@ -42,7 +42,7 @@
                      constraints)]
     (if (every? false? results)
       false
-      (map #(if (false? %) 0 %) results))))
+      (map #(if (false? %) 0.0 %) results))))
 
 (defn worst-fitness
   "Finds the worst fitness value for a collection of chromosomes
